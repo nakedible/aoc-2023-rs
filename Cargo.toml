@@ -7,6 +7,4 @@ edition = "2021"
 
 [dependencies]
 chumsky = "0.9.3"
-
-[dev-dependencies]
 test-case = "3.3.1"
