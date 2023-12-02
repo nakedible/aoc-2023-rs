@@ -8,4 +8,4 @@ set -xe
 
 DAY=${1:-$(date +%d)}
 
-aoc download -d $DAY -i inputs/input-$DAY.txt -p inputs/puzzle-$DAY.md
+aoc download -o -d $DAY -i inputs/input-$DAY.txt -p inputs/puzzle-$DAY.md
