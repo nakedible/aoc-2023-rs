@@ -27,14 +27,23 @@ fn match_digit(input: &[u8], text: bool) -> Option<i64> {
 }
 
 fn parse_row(input: &[u8], text: bool) -> (i64, i64) {
-    let first = (0..input.len()).find_map(|i| match_digit(&input[i..], text)).unwrap();
-    let last = (0..input.len()).rev().find_map(|i| match_digit(&input[i..], text)).unwrap();
+    let first = (0..input.len())
+        .find_map(|i| match_digit(&input[i..], text))
+        .unwrap();
+    let last = (0..input.len())
+        .rev()
+        .find_map(|i| match_digit(&input[i..], text))
+        .unwrap();
     (first, last)
 }
 
 fn parse_input(filename: &str, text: bool) -> Result<Vec<(i64, i64)>> {
     let input = std::fs::read(filename)?;
-    let rows = input.split(|b| *b == b'\n').filter(|v| !v.is_empty()).map(|v| parse_row(v, text)).collect();
+    let rows = input
+        .split(|b| *b == b'\n')
+        .filter(|v| !v.is_empty())
+        .map(|v| parse_row(v, text))
+        .collect();
     return Ok(rows);
 }
 
@@ -42,7 +51,10 @@ fn parse_input(filename: &str, text: bool) -> Result<Vec<(i64, i64)>> {
 #[test_case("inputs/input-01.txt" => matches Ok(54630))]
 pub fn puzzle1(filename: &str) -> Result<i64> {
     let input = parse_input(filename, false)?;
-    let ret = input.iter().map(|(first, last)| first * 10 + last).sum::<i64>();
+    let ret = input
+        .iter()
+        .map(|(first, last)| first * 10 + last)
+        .sum::<i64>();
     Ok(ret)
 }
 
@@ -50,6 +62,9 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
 #[test_case("inputs/input-01.txt" => matches Ok(54770))]
 pub fn puzzle2(filename: &str) -> Result<i64> {
     let input = parse_input(filename, true)?;
-    let ret = input.iter().map(|(first, last)| first * 10 + last).sum::<i64>();
+    let ret = input
+        .iter()
+        .map(|(first, last)| first * 10 + last)
+        .sum::<i64>();
     Ok(ret)
 }
