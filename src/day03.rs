@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use anyhow::Result;
-use test_case::test_case;
 use pathfinding::matrix::Matrix;
+use test_case::test_case;
 
 fn parse_input(filename: &str) -> Result<Matrix<char>> {
     let input = std::fs::read_to_string(filename)?;
@@ -22,20 +22,21 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
             match input[(row, col)] {
                 c @ ('0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9') => {
                     num = num * 10 + (c as i64 - '0' as i64);
-                    adj = adj || input.neighbours((row, col), true).any(|p| {
-                        match input[p] {
-                            '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '.' => false,
+                    adj = adj
+                        || input.neighbours((row, col), true).any(|p| match input[p] {
+                            '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '.' => {
+                                false
+                            }
                             _ => true,
-                        }
-                    });
-                },
+                        });
+                }
                 _ => {
                     if adj {
                         total += num;
                     }
                     num = 0;
                     adj = false;
-                },
+                }
             }
         }
         if adj {
@@ -57,12 +58,15 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
             match input[(row, col)] {
                 c @ ('0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9') => {
                     num = num * 10 + (c as i64 - '0' as i64);
-                    for gearpos in input.neighbours((row, col), true).filter(|p| input[*p] == '*') {
+                    for gearpos in input
+                        .neighbours((row, col), true)
+                        .filter(|p| input[*p] == '*')
+                    {
                         if !gearvec.contains(&gearpos) {
                             gearvec.push(gearpos);
                         }
                     }
-                },
+                }
                 _ => {
                     if num > 0 && !gearvec.is_empty() {
                         for gearpos in gearvec.drain(..) {
@@ -70,7 +74,7 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
                         }
                     }
                     num = 0;
-                },
+                }
             }
         }
         if num > 0 && !gearvec.is_empty() {
