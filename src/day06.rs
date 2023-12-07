@@ -20,19 +20,45 @@ fn parse_input(filename: &str) -> Result<Vec<(i64, i64)>> {
     return Ok(ret);
 }
 
+fn find_roots(a: f64, b: f64, c: f64) -> (f64, f64) {
+    let d = b * b - 4.0 * a * c;
+    assert!(d > 0.0);
+    let x1 = (-b + d.sqrt()) / (2.0 * a);
+    let x2 = (-b - d.sqrt()) / (2.0 * a);
+    return (x1, x2);
+}
+
+fn next_int(a: f64) -> i64 {
+    if a.fract() == 0.0 {
+        return a as i64 + 1;
+    } else {
+        return a.ceil() as i64;
+    }
+}
+
+fn prev_int(a: f64) -> i64 {
+    if a.fract() == 0.0 {
+        return a as i64 - 1;
+    } else {
+        return a.floor() as i64;
+    }
+}
+
 #[test_case("inputs/example-06-1.txt" => matches Ok(288))]
 #[test_case("inputs/input-06.txt" => matches Ok(1710720))]
 pub fn puzzle1(filename: &str) -> Result<i64> {
     let input = parse_input(filename)?;
     let mut ret = 1;
     for (time, distance) in input {
-        let mut ways = 0;
-        for dur in 0..time {
-            let dist = (time - dur) * dur;
-            if dist > distance {
-                ways += 1;
-            }
-        }
+        // let mut ways = 0;
+        // for dur in 0..time {
+        //     let dist = (time - dur) * dur;
+        //     if dist > distance {
+        //         ways += 1;
+        //     }
+        // }
+        let (x1, x2) = find_roots(-1.0, time as f64, -1.0 * distance as f64);
+        let ways = prev_int(x2) - next_int(x1) + 1;
         ret *= ways;
     }
     Ok(ret)
@@ -66,12 +92,14 @@ fn parse_input2(filename: &str) -> Result<(i64, i64)> {
 pub fn puzzle2(filename: &str) -> Result<i64> {
     let input = parse_input2(filename)?;
     let (time, distance) = input;
-    let mut ways = 0;
-    for dur in 0..time {
-        let dist = (time - dur) * dur;
-        if dist > distance {
-            ways += 1;
-        }
-    }
+    // let mut ways = 0;
+    // for dur in 0..time {
+    //     let dist = (time - dur) * dur;
+    //     if dist > distance {
+    //         ways += 1;
+    //     }
+    // }
+    let (x1, x2) = find_roots(-1.0, time as f64, -1.0 * distance as f64);
+    let ways = prev_int(x2) - next_int(x1) + 1;
     Ok(ways)
 }
