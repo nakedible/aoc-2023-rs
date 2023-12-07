@@ -4,8 +4,18 @@ use test_case::test_case;
 fn parse_input(filename: &str) -> Result<Vec<(i64, i64)>> {
     let input = std::fs::read_to_string(filename)?;
     let mut lines = input.lines();
-    let times = lines.next().unwrap().split_whitespace().skip(1).map(|s| s.parse::<i64>().unwrap());
-    let distances = lines.next().unwrap().split_whitespace().skip(1).map(|s| s.parse::<i64>().unwrap());
+    let times = lines
+        .next()
+        .unwrap()
+        .split_whitespace()
+        .skip(1)
+        .map(|s| s.parse::<i64>().unwrap());
+    let distances = lines
+        .next()
+        .unwrap()
+        .split_whitespace()
+        .skip(1)
+        .map(|s| s.parse::<i64>().unwrap());
     let ret = times.zip(distances).collect::<Vec<_>>();
     return Ok(ret);
 }
@@ -31,8 +41,22 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
 fn parse_input2(filename: &str) -> Result<(i64, i64)> {
     let input = std::fs::read_to_string(filename)?;
     let mut lines = input.lines();
-    let time = lines.next().unwrap().split_whitespace().skip(1).collect::<String>().parse::<i64>().unwrap();
-    let distance = lines.next().unwrap().split_whitespace().skip(1).collect::<String>().parse::<i64>().unwrap();
+    let time = lines
+        .next()
+        .unwrap()
+        .split_whitespace()
+        .skip(1)
+        .collect::<String>()
+        .parse::<i64>()
+        .unwrap();
+    let distance = lines
+        .next()
+        .unwrap()
+        .split_whitespace()
+        .skip(1)
+        .collect::<String>()
+        .parse::<i64>()
+        .unwrap();
     let ret = (time, distance);
     return Ok(ret);
 }
