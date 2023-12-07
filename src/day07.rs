@@ -64,32 +64,32 @@ fn rank_hand(hand: &Hand, j: bool) -> Rank {
             continue;
         }
         counts[card as usize] += 1;
-        match (counts[card as usize], rank) {
-            (2, Rank::HighCard) => rank = Rank::OnePair,
-            (2, Rank::OnePair) => rank = Rank::TwoPairs,
-            (2, Rank::ThreeOfAKind) => rank = Rank::FullHouse,
-            (3, Rank::OnePair) => rank = Rank::ThreeOfAKind,
-            (3, Rank::TwoPairs) => rank = Rank::FullHouse,
-            (4, _) => rank = Rank::FourOfAKind,
-            (5, _) => rank = Rank::FiveOfAKind,
-            _ => (),
-        }
+        rank = match (counts[card as usize], rank) {
+            (2, Rank::HighCard) => Rank::OnePair,
+            (2, Rank::OnePair) => Rank::TwoPairs,
+            (2, Rank::ThreeOfAKind) => Rank::FullHouse,
+            (3, Rank::OnePair) => Rank::ThreeOfAKind,
+            (3, Rank::TwoPairs) => Rank::FullHouse,
+            (4, _) => Rank::FourOfAKind,
+            (5, _) => Rank::FiveOfAKind,
+            _ => rank,
+        };
     }
-    match (jokers, rank) {
-        (5, _) => rank = Rank::FiveOfAKind,
-        (4, _) => rank = Rank::FiveOfAKind,
-        (3, Rank::OnePair) => rank = Rank::FiveOfAKind,
-        (3, Rank::HighCard) => rank = Rank::FourOfAKind,
-        (2, Rank::ThreeOfAKind) => rank = Rank::FiveOfAKind,
-        (2, Rank::OnePair) => rank = Rank::FourOfAKind,
-        (2, Rank::HighCard) => rank = Rank::ThreeOfAKind,
-        (1, Rank::FourOfAKind) => rank = Rank::FiveOfAKind,
-        (1, Rank::ThreeOfAKind) => rank = Rank::FourOfAKind,
-        (1, Rank::TwoPairs) => rank = Rank::FullHouse,
-        (1, Rank::OnePair) => rank = Rank::ThreeOfAKind,
-        (1, Rank::HighCard) => rank = Rank::OnePair,
-        (_, _) => (),
-    }
+    rank = match (jokers, rank) {
+        (5, _) => Rank::FiveOfAKind,
+        (4, _) => Rank::FiveOfAKind,
+        (3, Rank::OnePair) => Rank::FiveOfAKind,
+        (3, Rank::HighCard) => Rank::FourOfAKind,
+        (2, Rank::ThreeOfAKind) => Rank::FiveOfAKind,
+        (2, Rank::OnePair) => Rank::FourOfAKind,
+        (2, Rank::HighCard) => Rank::ThreeOfAKind,
+        (1, Rank::FourOfAKind) => Rank::FiveOfAKind,
+        (1, Rank::ThreeOfAKind) => Rank::FourOfAKind,
+        (1, Rank::TwoPairs) => Rank::FullHouse,
+        (1, Rank::OnePair) => Rank::ThreeOfAKind,
+        (1, Rank::HighCard) => Rank::OnePair,
+        (_, _) => rank,
+    };
     rank
 }
 
