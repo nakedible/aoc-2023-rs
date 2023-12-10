@@ -161,7 +161,7 @@ fn expand_pipes(input: &Matrix<Pipe>) -> Matrix<Pipe> {
     ret
 }
 
-#[test_case("inputs/example-10-1.txt" => matches Ok(1))]
+#[test_case("inputs/example-10-2.txt" => matches Ok(10))]
 #[test_case("inputs/input-10.txt" => matches Ok(467))]
 pub fn puzzle2(filename: &str) -> Result<i64> {
     let mut input = parse_input(filename)?;
