@@ -196,7 +196,9 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
     // expand
     let mut expanded = expand_pipes(&input);
     // nuke reachable from edge
-    let outer = expanded.bfs_reachable((0,0), false, |pos| expanded[pos] == Pipe::G || expanded[pos] == Pipe::O);
+    let outer = expanded.bfs_reachable((0, 0), false, |pos| {
+        expanded[pos] == Pipe::G || expanded[pos] == Pipe::O
+    });
     for o in outer {
         expanded[o] = Pipe::O;
     }
