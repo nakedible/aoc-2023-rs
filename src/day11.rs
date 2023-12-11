@@ -37,24 +37,11 @@ fn expand(input: &mut Vec<(i64, i64)>, count: i64) {
     }
 }
 
-#[test_case("inputs/example-11-1.txt" => matches Ok(374))]
-#[test_case("inputs/input-11.txt" => matches Ok(9563821))]
-pub fn puzzle1(filename: &str) -> Result<i64> {
-    let mut input = parse_input(filename)?;
-    expand(&mut input, 1);
-    let mut tot = 0;
-    for (i, (g1x, g1y)) in input.iter().enumerate() {
-        for (g2x, g2y) in input[i + 1..].iter() {
-            tot += (g1x - g2x).abs() + (g1y - g2y).abs();
-        }
-    }
-    Ok(tot)
-}
-
+#[test_case("inputs/example-11-1.txt", 1 => matches Ok(374))]
 #[test_case("inputs/example-11-1.txt", 9 => matches Ok(1030))]
 #[test_case("inputs/example-11-1.txt", 99 => matches Ok(8410))]
 #[test_case("inputs/input-11.txt", 999999 => matches Ok(827009909817))]
-pub fn puzzle2(filename: &str, count: i64) -> Result<i64> {
+pub fn puzzle1and2(filename: &str, count: i64) -> Result<i64> {
     let mut input = parse_input(filename)?;
     expand(&mut input, count);
     let mut tot = 0;
