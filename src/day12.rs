@@ -25,10 +25,7 @@ fn parse_input(filename: &str) -> Result<Vec<(Vec<Spring>, Vec<i64>)>> {
     return ret;
 }
 
-fn count_springs<'a>(cache: &mut HashMap<(&'a [Spring], &'a [i64], i64), i64>, springs: &'a [Spring], groups: &'a [i64], curdam: i64) -> i64 {
-    if let Some(ret) = cache.get(&(springs, groups, curdam)) {
-        return *ret;
-    }
+fn count_springs<'a>(cache: &mut HashMap<(&'a [Spring], &'a [i64], i64), i64>, springs: &'a [Spring], groups: &'a [i64], curdam: i64, minlen: i64) -> i64 {
     if springs.is_empty() {
         if groups.len() == 1 && groups[0] == curdam {
             return 1;
@@ -38,34 +35,27 @@ fn count_springs<'a>(cache: &mut HashMap<(&'a [Spring], &'a [i64], i64), i64>, s
             return 0;
         }
     }
+    if springs.len() as i64 + curdam < minlen {
+        return 0;
+    }
+    if let Some(ret) = cache.get(&(springs, groups, curdam)) {
+        return *ret;
+    }
     let mut ret = 0;
     if let Spring::Ope | Spring::Unk = springs[0] {
         if curdam > 0 {
             if !groups.is_empty() && groups[0] == curdam {
-                ret += count_springs(cache, &springs[1..], &groups[1..], 0);
+                ret += count_springs(cache, &springs[1..], &groups[1..], 0, minlen - curdam - 1);
             }
         } else {
-            ret += count_springs(cache, &springs[1..], groups, 0);
+            ret += count_springs(cache, &springs[1..], groups, 0, minlen);
         }
     }
     if let Spring::Dam | Spring::Unk = springs[0] {
-        ret += count_springs(cache, &springs[1..], groups, curdam + 1);
+        ret += count_springs(cache, &springs[1..], groups, curdam + 1, minlen);
     }
     cache.insert((springs, groups, curdam), ret);
     ret
-}
-
-#[test_case("inputs/example-12-1.txt" => matches Ok(21))]
-#[test_case("inputs/input-12.txt" => matches Ok(7916))]
-pub fn puzzle1(filename: &str) -> Result<i64> {
-    let input = parse_input(filename)?;
-    let mut ret = 0;
-    for (springs, groups) in input {
-        let count = count_springs(&mut HashMap::new(), &springs, &groups, 0);
-        //println!("{}", count);
-        ret += count;
-    }
-    Ok(ret)
 }
 
 fn unfold(springs: &Vec<Spring>, groups: &Vec<i64>) -> (Vec<Spring>, Vec<i64>) {
@@ -92,14 +82,19 @@ fn unfold(springs: &Vec<Spring>, groups: &Vec<i64>) -> (Vec<Spring>, Vec<i64>) {
     (springs, groups)
 }
 
-#[test_case("inputs/example-12-1.txt" => matches Ok(525152))]
-#[test_case("inputs/input-12.txt" => matches Ok(37366887898686))]
-pub fn puzzle2(filename: &str) -> Result<i64> {
+#[test_case("inputs/example-12-1.txt", false => matches Ok(21))]
+#[test_case("inputs/input-12.txt", false => matches Ok(7916))]
+#[test_case("inputs/example-12-1.txt", true => matches Ok(525152))]
+#[test_case("inputs/input-12.txt", true => matches Ok(37366887898686))]
+pub fn puzzle1and2(filename: &str, unfolded: bool) -> Result<i64> {
     let input = parse_input(filename)?;
     let mut ret = 0;
-    for (springs, groups) in input {
-        let (springs, groups) = unfold(&springs, &groups);
-        let count = count_springs(&mut HashMap::new(), &springs, &groups, 0);
+    for (mut springs, mut groups) in input {
+        if unfolded {
+            (springs, groups) = unfold(&springs, &groups);
+        }
+        let minlen = groups.iter().sum::<i64>() + groups.len() as i64 - 1;
+        let count = count_springs(&mut HashMap::new(), &springs, &groups, 0, minlen);
         //println!("{}", count);
         ret += count;
     }
