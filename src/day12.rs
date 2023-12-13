@@ -26,17 +26,14 @@ fn parse_input(filename: &str) -> Result<Vec<(Vec<Spring>, Vec<i64>)>> {
 }
 
 fn count_springs<'a>(cache: &mut HashMap<(&'a [Spring], &'a [i64], i64), i64>, springs: &'a [Spring], groups: &'a [i64], curdam: i64, minlen: i64) -> i64 {
-    if springs.is_empty() {
-        if groups.len() == 1 && groups[0] == curdam {
-            return 1;
-        } else if groups.is_empty() && curdam == 0 {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-    if springs.len() as i64 + curdam < minlen {
-        return 0;
+    match (springs.len() as i64, groups.len() as i64, groups.first()) {
+        (0, 1, Some(c)) if *c == curdam => return 1,
+        (0, 0, _) if curdam == 0 => return 1,
+        (0, _, _) => return 0,
+        (_, _, Some(c)) if *c < curdam => return 0,
+        (_, _, None) if curdam > 0 => return 0,
+        (s, _, _) if s + curdam < minlen => return 0,
+        _ => (),      
     }
     if let Some(ret) = cache.get(&(springs, groups, curdam)) {
         return *ret;
