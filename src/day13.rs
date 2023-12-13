@@ -4,15 +4,19 @@ use test_case::test_case;
 
 fn parse_input(filename: &str) -> Result<Vec<Matrix<bool>>> {
     let input = std::fs::read_to_string(filename)?;
-    let ret = input.split("\n\n").map(|m| {
-        Matrix::from_rows(m.lines().map(|l| {
-            l.chars().map(|c| match c {
-                '.' => false,
-                '#' => true,
-                _ => unreachable!(),
-            })
-        })).unwrap()
-    }).collect();
+    let ret = input
+        .split("\n\n")
+        .map(|m| {
+            Matrix::from_rows(m.lines().map(|l| {
+                l.chars().map(|c| match c {
+                    '.' => false,
+                    '#' => true,
+                    _ => unreachable!(),
+                })
+            }))
+            .unwrap()
+        })
+        .collect();
     return Ok(ret);
 }
 
@@ -39,7 +43,8 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
     let input = parse_input(filename)?;
     let mut total = 0;
     for m in input {
-        let count = (find_mirror(&m).unwrap_or(0) * 100) + find_mirror(&m.rotated_cw(1)).unwrap_or(0);
+        let count =
+            (find_mirror(&m).unwrap_or(0) * 100) + find_mirror(&m.rotated_cw(1)).unwrap_or(0);
         total += count as i64;
     }
     Ok(total)
@@ -55,11 +60,20 @@ fn find_mirror_smudged(input: &Matrix<bool>) -> Option<usize> {
                 }
                 break;
             }
-            match (0..input.columns).filter(|x| input[(y + diff - 1, *x)] != input[(y - diff, *x)]).count() {
+            match (0..input.columns)
+                .filter(|x| input[(y + diff - 1, *x)] != input[(y - diff, *x)])
+                .count()
+            {
                 0 => (),
-                1 if smudged => { break; }
-                1 => { smudged = true; }
-                _ => { break; }
+                1 if smudged => {
+                    break;
+                }
+                1 => {
+                    smudged = true;
+                }
+                _ => {
+                    break;
+                }
             }
         }
     }
@@ -72,7 +86,8 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
     let input = parse_input(filename)?;
     let mut total = 0;
     for m in input {
-        let count = (find_mirror_smudged(&m).unwrap_or(0) * 100) + find_mirror_smudged(&m.rotated_cw(1)).unwrap_or(0);
+        let count = (find_mirror_smudged(&m).unwrap_or(0) * 100)
+            + find_mirror_smudged(&m.rotated_cw(1)).unwrap_or(0);
         total += count as i64;
     }
     Ok(total)
