@@ -11,21 +11,36 @@ enum Spring {
 
 fn parse_input(filename: &str) -> Result<Vec<(Vec<Spring>, Vec<i64>)>> {
     let input = std::fs::read_to_string(filename)?;
-    let ret = input.lines().map(|line| {
-        let (springs, groups) = line.split_once(" ").unwrap();
-        let springs = springs.chars().map(|c| match c {
-            '.' => Spring::Ope,
-            '#' => Spring::Dam,
-            '?' => Spring::Unk,
-            _ => unreachable!(),
-        }).collect::<Vec<_>>();
-        let groups = groups.split(",").map(str::parse::<i64>).collect::<Result<Vec<_>, _>>()?;
-        Ok((springs, groups))
-    }).collect();
+    let ret = input
+        .lines()
+        .map(|line| {
+            let (springs, groups) = line.split_once(" ").unwrap();
+            let springs = springs
+                .chars()
+                .map(|c| match c {
+                    '.' => Spring::Ope,
+                    '#' => Spring::Dam,
+                    '?' => Spring::Unk,
+                    _ => unreachable!(),
+                })
+                .collect::<Vec<_>>();
+            let groups = groups
+                .split(",")
+                .map(str::parse::<i64>)
+                .collect::<Result<Vec<_>, _>>()?;
+            Ok((springs, groups))
+        })
+        .collect();
     return ret;
 }
 
-fn count_springs<'a>(cache: &mut HashMap<(&'a [Spring], &'a [i64], i64), i64>, springs: &'a [Spring], groups: &'a [i64], curdam: i64, minlen: i64) -> i64 {
+fn count_springs<'a>(
+    cache: &mut HashMap<(&'a [Spring], &'a [i64], i64), i64>,
+    springs: &'a [Spring],
+    groups: &'a [i64],
+    curdam: i64,
+    minlen: i64,
+) -> i64 {
     match (springs.len() as i64, groups.len() as i64, groups.first()) {
         (0, 1, Some(c)) if *c == curdam => return 1,
         (0, 0, _) if curdam == 0 => return 1,
@@ -33,7 +48,7 @@ fn count_springs<'a>(cache: &mut HashMap<(&'a [Spring], &'a [i64], i64), i64>, s
         (_, _, Some(c)) if *c < curdam => return 0,
         (_, _, None) if curdam > 0 => return 0,
         (s, _, _) if s + curdam < minlen => return 0,
-        _ => (),      
+        _ => (),
     }
     if let Some(ret) = cache.get(&(springs, groups, curdam)) {
         return *ret;
