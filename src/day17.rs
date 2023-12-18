@@ -16,27 +16,28 @@ fn parse_input(filename: &str) -> Result<Matrix<u8>> {
 
 type State = ((usize, usize), (isize, isize), usize);
 
-fn successors1(input: &Matrix<u8>, state: State) -> Vec<(State, usize)> {
+fn successors1(input: &Matrix<u8>, state: State) -> impl IntoIterator<Item = (State, usize)> + '_ {
     let (pos, dir, count) = state;
-    let mut ret = Vec::new();
-    for (d, o) in [
+    [
         (directions::N, directions::S),
         (directions::S, directions::N),
         (directions::E, directions::W),
         (directions::W, directions::E),
-    ] {
+    ]
+    .iter()
+    .map(move |&(d, o)| {
         if o == dir {
-            continue;
-        }
-        if d == dir && count >= 3 {
-            continue;
-        }
-        if let Some(p) = input.move_in_direction(pos, d) {
+            None
+        } else if d == dir && count >= 3 {
+            None
+        } else if let Some(p) = input.move_in_direction(pos, d) {
             let c = if d == dir { count + 1 } else { 1 };
-            ret.push(((p, d, c), input[p] as usize));
+            Some(((p, d, c), input[p] as usize))
+        } else {
+            None
         }
-    }
-    ret
+    })
+    .flatten()
 }
 
 fn heuristic(pos: (usize, usize), goal: (usize, usize)) -> usize {
@@ -62,32 +63,30 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
     Ok(cost as i64)
 }
 
-fn successors2(input: &Matrix<u8>, state: State) -> Vec<(State, usize)> {
+fn successors2(input: &Matrix<u8>, state: State) -> impl IntoIterator<Item = (State, usize)> + '_ {
     let (pos, dir, count) = state;
-    let mut ret = Vec::new();
-    for (d, o) in [
+    [
         (directions::N, directions::S),
         (directions::S, directions::N),
         (directions::E, directions::W),
         (directions::W, directions::E),
-    ] {
-        if count != 0 {
-            if o == dir {
-                continue;
-            }
-            if d == dir && count >= 10 {
-                continue;
-            }
-            if d != dir && count < 4 {
-                continue;
-            }
-        }
-        if let Some(p) = input.move_in_direction(pos, d) {
+    ]
+    .iter()
+    .map(move |&(d, o)| {
+        if o == dir && count > 0 {
+            None
+        } else if d == dir && count >= 10 {
+            None
+        } else if d != dir && count > 0 && count < 4 {
+            None
+        } else if let Some(p) = input.move_in_direction(pos, d) {
             let c = if d == dir { count + 1 } else { 1 };
-            ret.push(((p, d, c), input[p] as usize));
+            Some(((p, d, c), input[p] as usize))
+        } else {
+            None
         }
-    }
-    ret
+    })
+    .flatten()
 }
 
 #[test_case("inputs/example-17-1.txt" => matches Ok(94))]
