@@ -6,20 +6,23 @@ type Instr = ((isize, isize), usize, u32);
 
 fn parse_input(filename: &str) -> Result<Vec<Instr>> {
     let input = std::fs::read_to_string(filename)?;
-    let ret = input.lines().map(|l| {
-        let (dir, rest) = l.split_once(' ').unwrap();
-        let (count, color) = rest.split_once(' ').unwrap();
-        let dir = match dir {
-            "U" => directions::N,
-            "D" => directions::S,
-            "L" => directions::W,
-            "R" => directions::E,
-            _ => unreachable!()
-        };
-        let count = count.parse().unwrap();
-        let color = u32::from_str_radix(&color[2..color.len()-1], 16).unwrap();
-        (dir, count, color)
-    }).collect();
+    let ret = input
+        .lines()
+        .map(|l| {
+            let (dir, rest) = l.split_once(' ').unwrap();
+            let (count, color) = rest.split_once(' ').unwrap();
+            let dir = match dir {
+                "U" => directions::N,
+                "D" => directions::S,
+                "L" => directions::W,
+                "R" => directions::E,
+                _ => unreachable!(),
+            };
+            let count = count.parse().unwrap();
+            let color = u32::from_str_radix(&color[2..color.len() - 1], 16).unwrap();
+            (dir, count, color)
+        })
+        .collect();
     return Ok(ret);
 }
 
@@ -56,23 +59,27 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
 }
 
 fn fix_input(input: &Vec<Instr>) -> Vec<Instr> {
-    input.iter().map(|(_, _, color)| {
-        let dir = match color & 0xf {
-            0 => directions::E,
-            1 => directions::S,
-            2 => directions::W,
-            3 => directions::N,
-            _ => unreachable!(),
-        };
-        let count = (color >> 4) as usize;
-        (dir, count, *color)
-    }).collect()
+    input
+        .iter()
+        .map(|(_, _, color)| {
+            let dir = match color & 0xf {
+                0 => directions::E,
+                1 => directions::S,
+                2 => directions::W,
+                3 => directions::N,
+                _ => unreachable!(),
+            };
+            let count = (color >> 4) as usize;
+            (dir, count, *color)
+        })
+        .collect()
 }
 
 fn calc_area(polygon: Vec<(i64, i64)>) -> i64 {
-    let ret = polygon.windows(2).map(|w| {
-        w[0].0 * w[1].1 - w[1].0 * w[0].1
-    }).sum::<i64>();
+    let ret = polygon
+        .windows(2)
+        .map(|w| w[0].0 * w[1].1 - w[1].0 * w[0].1)
+        .sum::<i64>();
     ret.abs() / 2
 }
 

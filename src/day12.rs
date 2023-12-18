@@ -101,7 +101,10 @@ fn unfold(springs: &Vec<Spring>, groups: &Vec<i64>) -> (Vec<Spring>, Vec<i64>) {
 pub fn puzzle1and2(filename: &str, unfolded: bool) -> Result<i64> {
     let mut input = parse_input(filename)?;
     if unfolded {
-        input = input.iter().map(|(springs, groups)| unfold(&springs, &groups)).collect();
+        input = input
+            .iter()
+            .map(|(springs, groups)| unfold(&springs, &groups))
+            .collect();
     }
     let mut ret = 0;
     for (springs, groups) in input.iter() {

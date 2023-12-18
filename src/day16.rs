@@ -1,6 +1,6 @@
 use anyhow::Result;
-use std::collections::HashSet;
 use pathfinding::matrix::{directions, Matrix};
+use std::collections::HashSet;
 use test_case::test_case;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -14,14 +14,16 @@ enum Tile {
 
 fn parse_input(filename: &str) -> Result<Matrix<Tile>> {
     let input = std::fs::read_to_string(filename)?;
-    let ret = Matrix::from_rows(input.lines().filter(|l| !l.is_empty()).map(|l| l.chars().map(|c| match c {
-        '.' => Tile::Empty,
-        '/' => Tile::Slash,
-        '\\' => Tile::Backslash,
-        '|' => Tile::Versplit,
-        '-' => Tile::Horsplit,
-        _ => unreachable!(),
-    })))?;
+    let ret = Matrix::from_rows(input.lines().filter(|l| !l.is_empty()).map(|l| {
+        l.chars().map(|c| match c {
+            '.' => Tile::Empty,
+            '/' => Tile::Slash,
+            '\\' => Tile::Backslash,
+            '|' => Tile::Versplit,
+            '-' => Tile::Horsplit,
+            _ => unreachable!(),
+        })
+    }))?;
     return Ok(ret);
 }
 
@@ -59,7 +61,7 @@ fn shoot_ray(map: &Matrix<Tile>, pos: (usize, usize), dir: (isize, isize)) -> i6
                 Tile::Horsplit => (),
             }
             pos = map.move_in_direction(p, dir);
-        }    
+        }
     }
     let posmap = seent.iter().map(|(p, _)| p).collect::<HashSet<_>>();
     posmap.len() as i64
@@ -80,7 +82,10 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
     let mut max = 0;
     for y in 0..input.rows {
         max = std::cmp::max(max, shoot_ray(&input, (y, 0), directions::E));
-        max = std::cmp::max(max, shoot_ray(&input, (y, input.columns - 1), directions::W));
+        max = std::cmp::max(
+            max,
+            shoot_ray(&input, (y, input.columns - 1), directions::W),
+        );
     }
     for x in 0..input.columns {
         max = std::cmp::max(max, shoot_ray(&input, (0, x), directions::S));

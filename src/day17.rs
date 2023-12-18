@@ -5,7 +5,12 @@ use test_case::test_case;
 
 fn parse_input(filename: &str) -> Result<Matrix<u8>> {
     let input = std::fs::read_to_string(filename)?;
-    let ret = Matrix::from_rows(input.lines().filter(|l| !l.is_empty()).map(|l| l.chars().map(|c| c as u8 - '0' as u8)))?;
+    let ret = Matrix::from_rows(
+        input
+            .lines()
+            .filter(|l| !l.is_empty())
+            .map(|l| l.chars().map(|c| c as u8 - '0' as u8)),
+    )?;
     return Ok(ret);
 }
 
@@ -52,7 +57,8 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
         |&state| successors1(&input, state),
         |&state| heuristic(state.0, goal),
         |&state| success(state.0, goal),
-    ).expect("no path found");
+    )
+    .expect("no path found");
     Ok(cost as i64)
 }
 
@@ -94,6 +100,7 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
         |&state| successors2(&input, state),
         |&state| heuristic(state.0, goal),
         |&state| success(state.0, goal),
-    ).unwrap();
+    )
+    .unwrap();
     Ok(cost as i64)
 }

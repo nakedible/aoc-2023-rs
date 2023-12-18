@@ -11,12 +11,14 @@ enum Rock {
 
 fn parse_input(filename: &str) -> Result<Matrix<Rock>> {
     let input = std::fs::read_to_string(filename)?;
-    let ret = Matrix::from_rows(input.lines().filter(|l| !l.is_empty()).map(|l| l.chars().map(|c| match c {
-        'O' => Rock::R,
-        '#' => Rock::C,
-        '.' => Rock::E,
-        _ => unreachable!(),
-    })))?;
+    let ret = Matrix::from_rows(input.lines().filter(|l| !l.is_empty()).map(|l| {
+        l.chars().map(|c| match c {
+            'O' => Rock::R,
+            '#' => Rock::C,
+            '.' => Rock::E,
+            _ => unreachable!(),
+        })
+    }))?;
     return Ok(ret);
 }
 
@@ -24,11 +26,14 @@ fn parse_input(filename: &str) -> Result<Matrix<Rock>> {
 fn print_matrix(matrix: &Matrix<Rock>) {
     for y in 0..matrix.rows {
         for x in 0..matrix.columns {
-            print!("{}", match matrix[(y, x)] {
-                Rock::R => 'O',
-                Rock::C => '#',
-                Rock::E => '.',
-            });
+            print!(
+                "{}",
+                match matrix[(y, x)] {
+                    Rock::R => 'O',
+                    Rock::C => '#',
+                    Rock::E => '.',
+                }
+            );
         }
         println!();
     }
@@ -64,7 +69,11 @@ fn roll(matrix: &mut Matrix<Rock>) {
 pub fn puzzle1(filename: &str) -> Result<i64> {
     let mut input = parse_input(filename)?;
     roll(&mut input);
-    let ret = input.items().filter(|(_, r)| **r == Rock::R).map(|((y, _), _)| input.rows - y).sum::<usize>() as i64;
+    let ret = input
+        .items()
+        .filter(|(_, r)| **r == Rock::R)
+        .map(|((y, _), _)| input.rows - y)
+        .sum::<usize>() as i64;
     Ok(ret)
 }
 
@@ -102,6 +111,10 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
     for _ in 0..rem {
         cycle(&mut input);
     }
-    let ret = input.items().filter(|(_, r)| **r == Rock::R).map(|((y, _), _)| input.rows - y).sum::<usize>() as i64;
+    let ret = input
+        .items()
+        .filter(|(_, r)| **r == Rock::R)
+        .map(|((y, _), _)| input.rows - y)
+        .sum::<usize>() as i64;
     Ok(ret)
 }
