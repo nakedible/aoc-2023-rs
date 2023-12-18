@@ -1,5 +1,5 @@
 use anyhow::Result;
-use pathfinding::matrix::{directions, Matrix};
+use pathfinding::matrix::directions;
 use test_case::test_case;
 
 type Instr = ((isize, isize), usize, u32);
