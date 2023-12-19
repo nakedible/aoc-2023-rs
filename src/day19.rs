@@ -94,8 +94,8 @@ fn parse_input(filename: &str) -> Result<(HashMap<Id, Vec<Rule>>, Vec<Part>)> {
     return Ok((workflows, parts));
 }
 
-#[test_case("inputs/example-19-1.txt" => matches Ok(167409079868000))]
-#[test_case("inputs/input-19.txt" => matches Ok(131899818301477))]
+#[test_case("inputs/example-19-1.txt" => matches Ok(19114))]
+#[test_case("inputs/input-19.txt" => matches Ok(456651))]
 pub fn puzzle1(filename: &str) -> Result<i64> {
     let (workflows, parts) = parse_input(filename)?;
     let ret = parts
@@ -169,8 +169,8 @@ fn traverse_rules(workflows: &HashMap<Id, Vec<Rule>>, id: Id, mut inputs: [(i64,
     ret
 }
 
-#[test_case("inputs/example-19-1.txt" => matches Ok(467835))]
-#[test_case("inputs/input-19.txt" => matches Ok(84266818))]
+#[test_case("inputs/example-19-1.txt" => matches Ok(167409079868000))]
+#[test_case("inputs/input-19.txt" => matches Ok(131899818301477))]
 pub fn puzzle2(filename: &str) -> Result<i64> {
     let (workflows, _) = parse_input(filename)?;
     let ret = traverse_rules(&workflows, parse_id("in"), [(1, 4000); 4]);
