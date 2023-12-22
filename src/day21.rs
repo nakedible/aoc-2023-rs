@@ -66,63 +66,47 @@ pub fn puzzle1(filename: &str, steps: usize) -> Result<i64> {
 #[test_case(4 => 25)]
 #[test_case(5 => 41)]
 fn calc_diamond_area(n: usize) -> usize {
-    n * (2*n - 2) + 1
+    if n == 0 {
+        0
+    } else {
+        n * (2*n - 2) + 1
+    }
 } 
 
+#[test_case("inputs/example-21-1.txt", 6 => matches Ok(16))]
+#[test_case("inputs/example-21-1.txt", 10 => matches Ok(50))]
+#[test_case("inputs/example-21-1.txt", 50 => matches Ok(1594))]
+#[test_case("inputs/example-21-1.txt", 100 => matches Ok(6536))]
+#[test_case("inputs/example-21-1.txt", 500 => matches Ok(167004))]
+#[test_case("inputs/example-21-1.txt", 1000 => matches Ok(668697))]
+#[test_case("inputs/example-21-1.txt", 5000 => matches Ok(16733044))]
 #[test_case("inputs/input-21.txt", 327 => matches Ok(97607))]
 #[test_case("inputs/input-21.txt", 458 => matches Ok(191134))]
 #[test_case("inputs/input-21.txt", 589 => matches Ok(315795))]
 #[test_case("inputs/input-21.txt", 26501365 => matches Ok(637087163925555))]
 pub fn puzzle2(filename: &str, steps: usize) -> Result<i64> {
     let (start, map) = parse_input(filename)?;
-    let init = map.rows * 2;
-    let (steps, rep) = if steps > init {
-        ((steps % map.rows) + init, (steps - init) / map.rows)
-    } else {
-        (steps, 0)
-    };
+    let (rem, rep) = (steps % map.rows, steps / map.rows);
     let mut nodes = HashSet::new();
     nodes.insert((start.0 as isize, start.1 as isize));
-    // let mut found = HashMap::new();
-    for _i in 0..steps {
+    let mut prev_core = 0;
+    let mut prev_adj = 0;
+    let mut diff = 0;
+    let mut spent_rep = 0;
+    for _ in 0..rem {
         nodes = nodes
             .iter()
             .flat_map(|&p| neighbours(&map, p))
             .collect::<HashSet<_>>();
-        // let mut counts = HashMap::new();
-        // nodes
-        //     .iter()
-        //     .map(|&p| (p.0.div_euclid(map.rows as isize), p.1.div_euclid(map.columns as isize)))
-        //     .for_each(|p| {
-        //         counts.entry(p).and_modify(|e| *e += 1).or_insert(1);
-        //     });
-        // for (pos, count) in counts.iter() {
-        //     if *count == 7759 {
-        //         found.entry(*pos).or_insert(i);
-        //     }
-        // }
-        //println!("{}: {:?}", i, counts);
     }
-    // println!("{:?}", found);
-
-    let ret = if rep > 0 {
-        // example:
-        //    kal 
-        //   kbihl
-        //  kbiiihl
-        // kbiiiiihl
-        // ciiijiiig
-        // ndiiiiifm
-        //  ndiiifm
-        //   ndifm
-        //    nem
-        // |      |      |      |      |      |      |      |
-        // |      |      |  996 | 5858 |  994 |      |      |
-        // |      |  996 | 6823 | 7808 | 6794 |  994 |      |
-        // |      | 5871 | 7808 | 7759 | 7808 | 5843 |      |
-        // |      |  989 | 6807 | 7808 | 6808 |  999 |      |
-        // |      |      |  989 | 5856 |  999 |      |      |
-        // |      |      |      |      |      |      |      |=
+    for i in 1..=rep {
+        for _ in 0..map.rows {
+            nodes = nodes
+                .iter()
+                .flat_map(|&p| neighbours(&map, p))
+                .collect::<HashSet<_>>();
+        }
+        let total = nodes.len();
         let mut counts = HashMap::new();
         nodes
             .iter()
@@ -130,44 +114,21 @@ pub fn puzzle2(filename: &str, steps: usize) -> Result<i64> {
             .for_each(|p| {
                 counts.entry(p).and_modify(|e| *e += 1).or_insert(1usize);
             });
-        // for y in -3..=3 {
-        //     print!("|");
-        //     for x in -3..=3 {
-        //         if let Some(count) = counts.get(&(y, x)) {
-        //             print!(" {:4} |", count);
-        //         } else {
-        //             print!("      |");
-        //         }
-        //     }
-        //     println!();
-        // }
-        let b = counts[&(-1, -1)];
-        let h = counts[&(-1, 1)];
-        let d = counts[&(1, -1)];
-        let f = counts[&(1, 1)];
-        let i = counts[&(0, 0)];
-        let i2 = counts[&(0, 1)];
-        let k = counts[&(-2, -1)];
-        let l = counts[&(-2, 1)];
-        let m = counts[&(2, -1)];
-        let n = counts[&(2, 1)];
-        // println!("b: {}", b); // 6823
-        // println!("h: {}", h); // 6794
-        // println!("d: {}", d); // 6807
-        // println!("f: {}", f); // 6808
-        // println!("i: {}", i); // 7759
-        // println!("i2: {}", i2); // 7808
-        // println!("k: {}", k); // 996
-        // println!("l: {}", l); // 994
-        // println!("m: {}", m); // 989
-        // println!("n: {}", n); // 999
-        let base_count = nodes.len();
-        let edges = rep * (b + h + d + f + k + l + m + n);
-        let inner_count = calc_diamond_area(rep + 2) - calc_diamond_area(2);
-        let inner = (inner_count / 2) * (i + i2) + rep * (i2 - i);
-        (base_count + edges + inner) as i64
-    } else {
-        nodes.len() as i64
-    };
-    Ok(ret)
+        let core = counts[&(0, 0)] + counts.get(&(0, 1)).unwrap_or(&0);
+        let adj = total - core * ((calc_diamond_area(i - 1) - 1) / 2);
+        spent_rep = i;
+        if diff == adj - prev_adj {
+            println!("found rep {} spent_rep {} core {} and diff {}", rep, spent_rep, core, diff);
+            break;
+        } else {
+            diff = adj - prev_adj;
+            prev_core = core;
+            prev_adj = adj;
+        }
+    }
+    let total = nodes.len();
+    let edges = diff * (rep - spent_rep);
+    let inner = prev_core * ((calc_diamond_area(rep-1) - calc_diamond_area(spent_rep-1)) / 2);
+    let ret = total + edges + inner;
+    Ok(ret as i64)
 }
