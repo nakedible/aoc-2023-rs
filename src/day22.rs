@@ -76,15 +76,25 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
     Ok(ret)
 }
 
-fn count_fall(input: &Vec<(Point, Point)>, skip: usize) -> usize {
-    let mut dis = HashSet::new();
-    dis.insert(skip);
+fn map_supports(input: &Vec<(Point, Point)>) -> Vec<Vec<usize>> {
+    let mut ret = Vec::new();
     for i in 0..input.len() {
         let cur = input[i];
         if let Some(fall_block) = one_down(cur) {
-            if (0..i).rev().all(|j| dis.contains(&j) || !intersects(fall_block, input[j])) {
-                dis.insert(i);
-            }
+            ret.push((0..i).rev().filter(|&j| intersects(fall_block, input[j])).collect());
+        } else {
+            ret.push(Vec::new());
+        }
+    }
+    ret
+}
+
+fn count_fall(supports: &Vec<Vec<usize>>, skip: usize) -> usize {
+    let mut dis = HashSet::new();
+    dis.insert(skip);
+    for i in 0..supports.len() {
+        if !supports[i].is_empty() && supports[i].iter().all(|j| dis.contains(&j)) {
+            dis.insert(i);
         }
     }
     dis.len() - 1
@@ -97,6 +107,7 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
     input.sort_by_key(|&((_, _, z1), _)| z1);
     fall_blocks(&mut input);
     input.sort_by_key(|&((_, _, z1), _)| z1);
-    let ret = (0..input.len()).map(|i| count_fall(&input, i)).sum::<usize>() as i64;
+    let supports = map_supports(&input);
+    let ret = (0..input.len()).map(|i| count_fall(&supports, i)).sum::<usize>() as i64;
     Ok(ret)
 }
