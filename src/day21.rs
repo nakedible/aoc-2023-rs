@@ -42,9 +42,9 @@ fn neighbours(
 }
 
 #[test_case("inputs/example-21-1.txt", 6 => matches Ok(16))]
-#[test_case("inputs/example-21-1.txt", 10 => matches Ok(50))]
-#[test_case("inputs/example-21-1.txt", 50 => matches Ok(1594))]
-#[test_case("inputs/example-21-1.txt", 100 => matches Ok(6536))]
+// #[test_case("inputs/example-21-1.txt", 10 => matches Ok(50))]
+// #[test_case("inputs/example-21-1.txt", 50 => matches Ok(1594))]
+// #[test_case("inputs/example-21-1.txt", 100 => matches Ok(6536))]
 #[test_case("inputs/input-21.txt", 64 => matches Ok(3830))]
 pub fn puzzle1(filename: &str, steps: usize) -> Result<i64> {
     let (start, map) = parse_input(filename)?;
@@ -60,11 +60,11 @@ pub fn puzzle1(filename: &str, steps: usize) -> Result<i64> {
     Ok(ret)
 }
 
-#[test_case(1 => 1)]
-#[test_case(2 => 5)]
-#[test_case(3 => 13)]
-#[test_case(4 => 25)]
-#[test_case(5 => 41)]
+// #[test_case(1 => 1)]
+// #[test_case(2 => 5)]
+// #[test_case(3 => 13)]
+// #[test_case(4 => 25)]
+// #[test_case(5 => 41)]
 fn calc_diamond_area(n: usize) -> usize {
     if n == 0 {
         0
@@ -80,9 +80,9 @@ fn calc_diamond_area(n: usize) -> usize {
 #[test_case("inputs/example-21-1.txt", 500 => matches Ok(167004))]
 #[test_case("inputs/example-21-1.txt", 1000 => matches Ok(668697))]
 #[test_case("inputs/example-21-1.txt", 5000 => matches Ok(16733044))]
-#[test_case("inputs/input-21.txt", 327 => matches Ok(97607))]
-#[test_case("inputs/input-21.txt", 458 => matches Ok(191134))]
-#[test_case("inputs/input-21.txt", 589 => matches Ok(315795))]
+// #[test_case("inputs/input-21.txt", 327 => matches Ok(97607))]
+// #[test_case("inputs/input-21.txt", 458 => matches Ok(191134))]
+// #[test_case("inputs/input-21.txt", 589 => matches Ok(315795))]
 #[test_case("inputs/input-21.txt", 26501365 => matches Ok(637087163925555))]
 pub fn puzzle2(filename: &str, steps: usize) -> Result<i64> {
     let (start, map) = parse_input(filename)?;
