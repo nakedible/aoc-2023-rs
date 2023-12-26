@@ -5,45 +5,36 @@ type Vec3 = (i64, i64, i64);
 
 fn parse_input(filename: &str) -> Result<Vec<(Vec3, Vec3)>> {
     let input = std::fs::read_to_string(filename)?;
-    let ret = input.lines().map(|l| {
-        let (pos, vel) = l.split_once(" @ ").unwrap();
-        let (x, pos) = pos.split_once(", ").unwrap();
-        let (y, z) = pos.split_once(", ").unwrap();
-        let (vx, vel) = vel.split_once(", ").unwrap();
-        let (vy, vz) = vel.split_once(", ").unwrap();
-        let x = x.trim().parse::<i64>().unwrap();
-        let y = y.trim().parse::<i64>().unwrap();
-        let z = z.trim().parse::<i64>().unwrap();
-        let vx = vx.trim().parse::<i64>().unwrap();
-        let vy = vy.trim().parse::<i64>().unwrap();
-        let vz = vz.trim().parse::<i64>().unwrap();
-        ((x, y, z), (vx, vy, vz))
-    }).collect();
+    let ret = input
+        .lines()
+        .map(|l| {
+            let (pos, vel) = l.split_once(" @ ").unwrap();
+            let (x, pos) = pos.split_once(", ").unwrap();
+            let (y, z) = pos.split_once(", ").unwrap();
+            let (vx, vel) = vel.split_once(", ").unwrap();
+            let (vy, vz) = vel.split_once(", ").unwrap();
+            let x = x.trim().parse::<i64>().unwrap();
+            let y = y.trim().parse::<i64>().unwrap();
+            let z = z.trim().parse::<i64>().unwrap();
+            let vx = vx.trim().parse::<i64>().unwrap();
+            let vy = vy.trim().parse::<i64>().unwrap();
+            let vz = vz.trim().parse::<i64>().unwrap();
+            ((x, y, z), (vx, vy, vz))
+        })
+        .collect();
     return Ok(ret);
 }
 
 fn vec3_add(a: Vec3, b: Vec3) -> Vec3 {
-    (
-        a.0 + b.0,
-        a.1 + b.1,
-        a.2 + b.2,
-    )
+    (a.0 + b.0, a.1 + b.1, a.2 + b.2)
 }
 
 fn vec3_sub(a: Vec3, b: Vec3) -> Vec3 {
-    (
-        a.0 - b.0,
-        a.1 - b.1,
-        a.2 - b.2,
-    )
+    (a.0 - b.0, a.1 - b.1, a.2 - b.2)
 }
 
 fn vec3_mulsca(a: Vec3, b: i64) -> Vec3 {
-    (
-        a.0 * b,
-        a.1 * b,
-        a.2 * b,
-    )
+    (a.0 * b, a.1 * b, a.2 * b)
 }
 
 fn calc_intersection_2d((ap, av): (Vec3, Vec3), (bp, bv): (Vec3, Vec3)) -> Option<(f64, f64)> {
@@ -84,9 +75,9 @@ pub fn puzzle1(filename: &str, min: f64, max: f64) -> Result<i64> {
 }
 
 fn d(m: Vec3, n: Vec3, o: Vec3, p: Vec3) -> i128 {
-    (m.0 as i128 - n.0 as i128) * (o.0 as i128 - p.0 as i128) +
-    (m.1 as i128 - n.1 as i128) * (o.1 as i128 - p.1 as i128) +
-    (m.2 as i128 - n.2 as i128) * (o.2 as i128 - p.2 as i128)
+    (m.0 as i128 - n.0 as i128) * (o.0 as i128 - p.0 as i128)
+        + (m.1 as i128 - n.1 as i128) * (o.1 as i128 - p.1 as i128)
+        + (m.2 as i128 - n.2 as i128) * (o.2 as i128 - p.2 as i128)
 }
 
 fn exact_div(a: i128, b: i128) -> Option<i128> {
@@ -105,7 +96,7 @@ fn mu_ab((ap, av): (Vec3, Vec3), (bp, bv): (Vec3, Vec3)) -> Option<(i64, i64)> {
     )?;
     let mu_b = exact_div(
         d(ap, bp, bn, bp) + mu_a * d(bn, bp, an, ap),
-        d(bn, bp, bn, bp)
+        d(bn, bp, bn, bp),
     )?;
     Some((mu_a.try_into().unwrap(), mu_b.try_into().unwrap()))
 }

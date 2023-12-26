@@ -1,10 +1,9 @@
-
 use anyhow::Result;
-use smallbitset::Set64;
-use std::collections::{VecDeque, HashMap};
 use pathfinding::matrix::{directions, Matrix};
 use petgraph::graph::{DiGraph, NodeIndex};
 use petgraph::visit::EdgeRef;
+use smallbitset::Set64;
+use std::collections::{HashMap, VecDeque};
 use test_case::test_case;
 
 fn parse_input(filename: &str) -> Result<Matrix<char>> {
@@ -13,7 +12,10 @@ fn parse_input(filename: &str) -> Result<Matrix<char>> {
     return Ok(ret);
 }
 
-fn neighbours(map: &Matrix<char>, pos: (usize, usize)) -> impl IntoIterator<Item = ((usize, usize), i64)> + '_ {
+fn neighbours(
+    map: &Matrix<char>,
+    pos: (usize, usize),
+) -> impl IntoIterator<Item = ((usize, usize), i64)> + '_ {
     let dirs = match map[pos] {
         '>' => &[directions::E][..],
         '^' => &[directions::N][..],
@@ -22,8 +24,7 @@ fn neighbours(map: &Matrix<char>, pos: (usize, usize)) -> impl IntoIterator<Item
         '.' => &directions::DIRECTIONS_4[..],
         _ => unreachable!(),
     };
-    dirs
-        .iter()
+    dirs.iter()
         .flat_map(move |dir| map.move_in_direction(pos, *dir))
         .filter(|&p| match map[p] {
             '.' => true,
@@ -47,16 +48,21 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
             max_cost = max_cost.max(cost);
             continue;
         }
-        neighbours(&input, next).into_iter().filter(|&(p, _)| p != prev).for_each(|(p, _)| branches.push_back((next, p, cost + 1)));
+        neighbours(&input, next)
+            .into_iter()
+            .filter(|&(p, _)| p != prev)
+            .for_each(|(p, _)| branches.push_back((next, p, cost + 1)));
     }
     let ret = max_cost;
     Ok(ret)
 }
 
-fn neighbours2(map: &Matrix<char>, pos: (usize, usize)) -> impl IntoIterator<Item = ((usize, usize), i64)> + '_ {
+fn neighbours2(
+    map: &Matrix<char>,
+    pos: (usize, usize),
+) -> impl IntoIterator<Item = ((usize, usize), i64)> + '_ {
     let dirs = &directions::DIRECTIONS_4[..];
-    dirs
-        .iter()
+    dirs.iter()
         .flat_map(move |dir| map.move_in_direction(pos, *dir))
         .filter(|&p| match map[p] {
             '.' => true,
@@ -82,7 +88,11 @@ fn simplify(input: &Matrix<char>) -> (NodeIndex, NodeIndex, DiGraph<(), i64>) {
             graph.add_edge(prev_branch, goalnode, cost);
             continue;
         }
-        let posses: Vec<(usize, usize)> = neighbours2(&input, next).into_iter().filter(|&(p, _)| p != prev).map(|(p, _)| p).collect();
+        let posses: Vec<(usize, usize)> = neighbours2(&input, next)
+            .into_iter()
+            .filter(|&(p, _)| p != prev)
+            .map(|(p, _)| p)
+            .collect();
         if posses.len() == 1 {
             branches.push_back((prev_branch, next, posses[0], cost + 1));
         } else {
@@ -124,7 +134,11 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
             if seen.contains(er.target().index()) {
                 continue;
             }
-            branches.push_back((er.target(), cost + er.weight(), seen.add(er.target().index())));
+            branches.push_back((
+                er.target(),
+                cost + er.weight(),
+                seen.add(er.target().index()),
+            ));
         }
     }
     let ret = max_cost;

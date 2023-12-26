@@ -69,9 +69,9 @@ fn calc_diamond_area(n: usize) -> usize {
     if n == 0 {
         0
     } else {
-        n * (2*n - 2) + 1
+        n * (2 * n - 2) + 1
     }
-} 
+}
 
 #[test_case("inputs/example-21-1.txt", 6 => matches Ok(16))]
 #[test_case("inputs/example-21-1.txt", 10 => matches Ok(50))]
@@ -116,7 +116,12 @@ pub fn puzzle2(filename: &str, steps: usize) -> Result<i64> {
         let mut counts = HashMap::new();
         nodes
             .iter()
-            .map(|&p| (p.0.div_euclid(map.rows as isize), p.1.div_euclid(map.columns as isize)))
+            .map(|&p| {
+                (
+                    p.0.div_euclid(map.rows as isize),
+                    p.1.div_euclid(map.columns as isize),
+                )
+            })
             .for_each(|p| {
                 counts.entry(p).and_modify(|e| *e += 1).or_insert(1usize);
             });
@@ -124,7 +129,10 @@ pub fn puzzle2(filename: &str, steps: usize) -> Result<i64> {
         let adj = total - core * ((calc_diamond_area(i - 1) - 1) / 2);
         spent_rep = i;
         if diff == adj - prev_adj {
-            println!("found rep {} spent_rep {} core {} and diff {}", rep, spent_rep, core, diff);
+            println!(
+                "found rep {} spent_rep {} core {} and diff {}",
+                rep, spent_rep, core, diff
+            );
             break;
         } else {
             diff = adj - prev_adj;
@@ -134,7 +142,7 @@ pub fn puzzle2(filename: &str, steps: usize) -> Result<i64> {
     }
     let total = nodes.len();
     let edges = diff * (rep - spent_rep);
-    let inner = prev_core * ((calc_diamond_area(rep-1) - calc_diamond_area(spent_rep-1)) / 2);
+    let inner = prev_core * ((calc_diamond_area(rep - 1) - calc_diamond_area(spent_rep - 1)) / 2);
     let ret = total + edges + inner;
     Ok(ret as i64)
 }

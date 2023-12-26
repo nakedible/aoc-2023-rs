@@ -16,8 +16,16 @@ fn parse_input(filename: &str) -> Result<Vec<Block>> {
             let (y1, z1) = beg.split_once(',').unwrap();
             let (x2, end) = end.split_once(',').unwrap();
             let (y2, z2) = end.split_once(',').unwrap();
-            let (x1, y1, z1) = (x1.parse().unwrap(), y1.parse().unwrap(), z1.parse().unwrap());
-            let (x2, y2, z2) = (x2.parse().unwrap(), y2.parse().unwrap(), z2.parse().unwrap());
+            let (x1, y1, z1) = (
+                x1.parse().unwrap(),
+                y1.parse().unwrap(),
+                z1.parse().unwrap(),
+            );
+            let (x2, y2, z2) = (
+                x2.parse().unwrap(),
+                y2.parse().unwrap(),
+                z2.parse().unwrap(),
+            );
             assert!(x1 <= x2 && y1 <= y2 && z1 <= z2);
             ((x1, y1, z1), (x2, y2, z2))
         })
@@ -57,7 +65,10 @@ fn would_fall(input: &Vec<(Point, Point)>, skip: usize) -> bool {
     for i in 0..input.len() {
         let cur = input[i];
         if let Some(fall_block) = one_down(cur) {
-            if (0..i).rev().all(|j| j == skip || !intersects(fall_block, input[j])) {
+            if (0..i)
+                .rev()
+                .all(|j| j == skip || !intersects(fall_block, input[j]))
+            {
                 return true;
             }
         }
@@ -77,13 +88,20 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
 }
 
 fn map_supports(input: &Vec<(Point, Point)>) -> Vec<Vec<usize>> {
-    input.iter().enumerate().map(|(i, &cur)| {
-        if let Some(fall_block) = one_down(cur) {
-            (0..i).rev().filter(|&j| intersects(fall_block, input[j])).collect()
-        } else {
-            Vec::new()
-        }
-    }).collect()
+    input
+        .iter()
+        .enumerate()
+        .map(|(i, &cur)| {
+            if let Some(fall_block) = one_down(cur) {
+                (0..i)
+                    .rev()
+                    .filter(|&j| intersects(fall_block, input[j]))
+                    .collect()
+            } else {
+                Vec::new()
+            }
+        })
+        .collect()
 }
 
 fn count_fall(supports: &Vec<Vec<usize>>, skip: usize) -> usize {
@@ -105,6 +123,8 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
     fall_blocks(&mut input);
     input.sort_by_key(|&((_, _, z1), _)| z1);
     let supports = map_supports(&input);
-    let ret = (0..input.len()).map(|i| count_fall(&supports, i)).sum::<usize>() as i64;
+    let ret = (0..input.len())
+        .map(|i| count_fall(&supports, i))
+        .sum::<usize>() as i64;
     Ok(ret)
 }

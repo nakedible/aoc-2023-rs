@@ -9,9 +9,13 @@ fn parse_input(filename: &str) -> Result<UnGraph<String, ()>> {
     let mut nodemap = HashMap::new();
     for line in input.lines().filter(|l| !l.is_empty()) {
         let (src, dst) = line.split_once(": ").unwrap();
-        let src = *nodemap.entry(src.to_string()).or_insert_with(|| ret.add_node(src.to_string()));
+        let src = *nodemap
+            .entry(src.to_string())
+            .or_insert_with(|| ret.add_node(src.to_string()));
         for dst in dst.split(" ") {
-            let dst = *nodemap.entry(dst.to_string()).or_insert_with(|| ret.add_node(dst.to_string()));
+            let dst = *nodemap
+                .entry(dst.to_string())
+                .or_insert_with(|| ret.add_node(dst.to_string()));
             ret.add_edge(src, dst, ());
         }
     }
@@ -28,7 +32,8 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
         let mut counts = HashMap::new();
         for i in fastrand::choose_multiple(input.node_indices(), 12) {
             for j in fastrand::choose_multiple(input.node_indices(), 12) {
-                let (_, path) = petgraph::algo::astar::astar(&input, i, |n| n == j, |_| 1, |_| 1).unwrap();
+                let (_, path) =
+                    petgraph::algo::astar::astar(&input, i, |n| n == j, |_| 1, |_| 1).unwrap();
                 let mut prev = i;
                 for n in path {
                     if prev != i {
@@ -44,6 +49,9 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
         let last_edge = input.find_edge(last_edge.0, last_edge.1).unwrap();
         input.remove_edge(last_edge);
     }
-    let ret = petgraph::algo::tarjan_scc(&input).iter().map(|c| c.len()).product::<usize>() as i64;
+    let ret = petgraph::algo::tarjan_scc(&input)
+        .iter()
+        .map(|c| c.len())
+        .product::<usize>() as i64;
     Ok(ret)
 }
