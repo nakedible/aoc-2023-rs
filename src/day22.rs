@@ -77,26 +77,23 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
 }
 
 fn map_supports(input: &Vec<(Point, Point)>) -> Vec<Vec<usize>> {
-    let mut ret = Vec::new();
-    for i in 0..input.len() {
-        let cur = input[i];
+    input.iter().enumerate().map(|(i, &cur)| {
         if let Some(fall_block) = one_down(cur) {
-            ret.push((0..i).rev().filter(|&j| intersects(fall_block, input[j])).collect());
+            (0..i).rev().filter(|&j| intersects(fall_block, input[j])).collect()
         } else {
-            ret.push(Vec::new());
+            Vec::new()
         }
-    }
-    ret
+    }).collect()
 }
 
 fn count_fall(supports: &Vec<Vec<usize>>, skip: usize) -> usize {
     let mut dis = HashSet::new();
     dis.insert(skip);
-    for i in 0..supports.len() {
-        if !supports[i].is_empty() && supports[i].iter().all(|j| dis.contains(&j)) {
+    supports.iter().enumerate().for_each(|(i, s)| {
+        if !s.is_empty() && s.iter().all(|j| dis.contains(&j)) {
             dis.insert(i);
         }
-    }
+    });
     dis.len() - 1
 }
 
