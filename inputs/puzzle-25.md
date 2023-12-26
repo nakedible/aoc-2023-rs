@@ -55,8 +55,35 @@ Multiplying the sizes of these groups together produces `*54*`.
 
 Find the three wires you need to disconnect in order to divide the components into two separate groups. *What do you get if you multiply the sizes of these two groups together?*
 
-To begin, [get your puzzle input](25/input).
+Your puzzle answer was `562912`.
 
-Answer:
+The first half of this puzzle is complete! It provides one gold star: \*
 
-You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=%22Snowverload%22+%2D+Day+25+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F25&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+\--- Part Two ---
+----------
+
+You climb over weather machines, under giant springs, and narrowly avoid a pile of pipes as you find and disconnect the three wires.
+
+A moment after you disconnect the last wire, the big red reset button module makes a small ding noise:
+
+```
+System overload resolved!
+Power required is now 50 stars.
+
+```
+
+Out of the corner of your eye, you notice goggles and a loose-fitting hard hat peeking at you from behind an ultra crucible. You think you see a faint glow, but before you can investigate, you hear another small ding:
+
+```
+Power required is now 49 stars.
+
+Please supply the necessary stars and
+push the button to restart the system.
+
+```
+
+You don't have enough stars to restart the system, though. You need 1 more.
+
+Although it hasn't changed, you can still [get your puzzle input](25/input).
+
+You can [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+Part+One+of+%22Snowverload%22+%2D+Day+25+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F25&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
