@@ -118,11 +118,10 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
     let input = parse_input(filename)?;
     let input: [(Vec3, Vec3); 3] = input[..3].try_into().unwrap();
     let mut pos = (0, 0, 0);
-    const MIN_VEL: i64 = -500;
-    const MAX_VEL: i64 = 500;
-    'top: for xv in MIN_VEL..=MAX_VEL {
-        for yv in MIN_VEL..=MAX_VEL {
-            for zv in MIN_VEL..=MAX_VEL {
+    let candidates = (1..500).flat_map(|x| [x, -x]).collect::<Vec<_>>();
+    'top: for &xv in &candidates {
+        for &yv in &candidates {
+            for &zv in &candidates {
                 let cv = (xv as i64, yv as i64, zv as i64);
                 let rel_input = input.map(|(p, v)| (p, vec3_sub(v, cv)));
                 let Some(i1) = inter_point(rel_input[0], rel_input[1]) else {
