@@ -1,3 +1,5 @@
+article \*[title]{border-bottom:1px dotted #ffff66;}
+
 \--- Day 10: Pipe Maze ---
 ----------
 
@@ -133,8 +135,6 @@ Find the single giant loop starting at `S`. *How many steps along the loop does 
 
 Your puzzle answer was `6927`.
 
-The first half of this puzzle is complete! It provides one gold star: \*
-
 \--- Part Two ---
 ----------
 
@@ -257,8 +257,12 @@ In this last example, `*10*` tiles are enclosed by the loop.
 
 Figure out whether you have time to search for the nest by calculating the area within the loop. *How many tiles are enclosed by the loop?*
 
-Answer:
+Your puzzle answer was `467`.
 
-Although it hasn't changed, you can still [get your puzzle input](10/input).
+Both parts of this puzzle are complete! They provide two gold stars: \*\*
 
-You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+Part+One+of+%22Pipe+Maze%22+%2D+Day+10+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F10&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+At this point, all that is left is for you to [admire your Advent calendar](/2023).
+
+If you still want to see it, you can [get your puzzle input](10/input).
+
+You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+%22Pipe+Maze%22+%2D+Day+10+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F10&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.

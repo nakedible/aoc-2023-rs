@@ -1,3 +1,5 @@
+article \*[title]{border-bottom:1px dotted #ffff66;}
+
 \--- Day 17: Clumsy Crucible ---
 ----------
 
@@ -61,8 +63,6 @@ Directing the crucible from the lava pool to the machine parts factory, but not 
 
 Your puzzle answer was `1076`.
 
-The first half of this puzzle is complete! It provides one gold star: \*
-
 \--- Part Two ---
 ----------
 
@@ -119,8 +119,12 @@ This route causes the ultra crucible to incur the minimum possible heat loss of 
 
 Directing the *ultra crucible* from the lava pool to the machine parts factory, *what is the least heat loss it can incur?*
 
-Answer:
+Your puzzle answer was `1219`.
 
-Although it hasn't changed, you can still [get your puzzle input](17/input).
+Both parts of this puzzle are complete! They provide two gold stars: \*\*
 
-You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+Part+One+of+%22Clumsy+Crucible%22+%2D+Day+17+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F17&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+At this point, all that is left is for you to [admire your Advent calendar](/2023).
+
+If you still want to see it, you can [get your puzzle input](17/input).
+
+You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+%22Clumsy+Crucible%22+%2D+Day+17+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F17&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.

@@ -1,3 +1,5 @@
+article \*[title]{border-bottom:1px dotted #ffff66;}
+
 \--- Day 16: The Floor Will Be Lava ---
 ----------
 
@@ -70,8 +72,55 @@ Ultimately, in this example, `*46*` tiles become *energized*.
 
 The light isn't energizing enough tiles to produce lava; to debug the contraption, you need to start by analyzing the current situation. With the beam starting in the top-left heading right, *how many tiles end up being energized?*
 
-To begin, [get your puzzle input](16/input).
+Your puzzle answer was `6978`.
 
-Answer:
+\--- Part Two ---
+----------
 
-You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=%22The+Floor+Will+Be+Lava%22+%2D+Day+16+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F16&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+As you try to work out what might be wrong, the reindeer tugs on your shirt and leads you to a nearby control panel. There, a collection of buttons lets you align the contraption so that the beam enters from *any edge tile* and heading away from that edge. (You can choose either of two directions for the beam if it starts on a corner; for instance, if the beam starts in the bottom-right corner, it can start heading either left or upward.)
+
+So, the beam could start on any tile in the top row (heading downward), any tile in the bottom row (heading upward), any tile in the leftmost column (heading right), or any tile in the rightmost column (heading left). To produce lava, you need to find the configuration that *energizes as many tiles as possible*.
+
+In the above example, this can be achieved by starting the beam in the fourth tile from the left in the top row:
+
+```
+.|<2<\....
+|v-v\^....
+.v.v.|->>>
+.v.v.v^.|.
+.v.v.v^...
+.v.v.v^..\
+.v.v/2\\..
+<-2-/vv|..
+.|<<<2-|.\
+.v//.|.v..
+
+```
+
+Using this configuration, `*51*` tiles are energized:
+
+```
+.#####....
+.#.#.#....
+.#.#.#####
+.#.#.##...
+.#.#.##...
+.#.#.##...
+.#.#####..
+########..
+.#######..
+.#...#.#..
+
+```
+
+Find the initial beam configuration that energizes the largest number of tiles; *how many tiles are energized in that configuration?*
+
+Your puzzle answer was `7315`.
+
+Both parts of this puzzle are complete! They provide two gold stars: \*\*
+
+At this point, all that is left is for you to [admire your Advent calendar](/2023).
+
+If you still want to see it, you can [get your puzzle input](16/input).
+
+You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+%22The+Floor+Will+Be+Lava%22+%2D+Day+16+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F16&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.

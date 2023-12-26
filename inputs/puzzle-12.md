@@ -1,3 +1,5 @@
+article \*[title]{border-bottom:1px dotted #ffff66;}
+
 \--- Day 12: Hot Springs ---
 ----------
 
@@ -85,8 +87,6 @@ For each row, count all of the different arrangements of operational and broken 
 
 Your puzzle answer was `7916`.
 
-The first half of this puzzle is complete! It provides one gold star: \*
-
 \--- Part Two ---
 ----------
 
@@ -125,8 +125,12 @@ After unfolding, adding all of the possible arrangement counts together produces
 
 Unfold your condition records; *what is the new sum of possible arrangement counts?*
 
-Answer:
+Your puzzle answer was `37366887898686`.
 
-Although it hasn't changed, you can still [get your puzzle input](12/input).
+Both parts of this puzzle are complete! They provide two gold stars: \*\*
 
-You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+Part+One+of+%22Hot+Springs%22+%2D+Day+12+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F12&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+At this point, all that is left is for you to [admire your Advent calendar](/2023).
+
+If you still want to see it, you can [get your puzzle input](12/input).
+
+You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+%22Hot+Springs%22+%2D+Day+12+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F12&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.

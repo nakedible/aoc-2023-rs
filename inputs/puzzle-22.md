@@ -1,3 +1,5 @@
+article \*[title]{border-bottom:1px dotted #ffff66;}
+
 \--- Day 22: Sand Slabs ---
 ----------
 
@@ -141,8 +143,6 @@ Figure how the blocks will settle based on the snapshot. Once they've settled, c
 
 Your puzzle answer was `424`.
 
-The first half of this puzzle is complete! It provides one gold star: \*
-
 \--- Part Two ---
 ----------
 
@@ -159,8 +159,12 @@ Disintegrating any other brick would cause *no other bricks* to fall. So, in thi
 
 For each brick, determine how many *other bricks* would fall if that brick were disintegrated. *What is the sum of the number of other bricks that would fall?*
 
-Answer:
+Your puzzle answer was `55483`.
 
-Although it hasn't changed, you can still [get your puzzle input](22/input).
+Both parts of this puzzle are complete! They provide two gold stars: \*\*
 
-You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+Part+One+of+%22Sand+Slabs%22+%2D+Day+22+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F22&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+At this point, all that is left is for you to [admire your Advent calendar](/2023).
+
+If you still want to see it, you can [get your puzzle input](22/input).
+
+You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+%22Sand+Slabs%22+%2D+Day+22+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F22&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.

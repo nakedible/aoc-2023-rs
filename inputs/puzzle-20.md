@@ -1,3 +1,5 @@
+article \*[title]{border-bottom:1px dotted #ffff66;}
+
 \--- Day 20: Pulse Propagation ---
 ----------
 
@@ -135,8 +137,6 @@ Consult your module configuration; determine the number of low pulses and high p
 
 Your puzzle answer was `839775244`.
 
-The first half of this puzzle is complete! It provides one gold star: \*
-
 \--- Part Two ---
 ----------
 
@@ -144,8 +144,12 @@ The final machine responsible for moving the sand down to Island Island has a mo
 
 Reset all modules to their default states. Waiting for all pulses to be fully handled after each button press, *what is the fewest number of button presses required to deliver a single low pulse to the module named `rx`?*
 
-Answer:
+Your puzzle answer was `207787533680413`.
 
-Although it hasn't changed, you can still [get your puzzle input](20/input).
+Both parts of this puzzle are complete! They provide two gold stars: \*\*
 
-You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+Part+One+of+%22Pulse+Propagation%22+%2D+Day+20+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F20&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+At this point, all that is left is for you to [admire your Advent calendar](/2023).
+
+If you still want to see it, you can [get your puzzle input](20/input).
+
+You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+%22Pulse+Propagation%22+%2D+Day+20+%2D+Advent+of+Code+2023&url=https%3A%2F%2Fadventofcode%2Ecom%2F2023%2Fday%2F20&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
