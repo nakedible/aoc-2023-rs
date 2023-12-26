@@ -87,23 +87,29 @@ fn calc_diamond_area(n: usize) -> usize {
 pub fn puzzle2(filename: &str, steps: usize) -> Result<i64> {
     let (start, map) = parse_input(filename)?;
     let (rem, rep) = (steps % map.rows, steps / map.rows);
+    let mut prev_nodes = HashSet::new();
     let mut nodes = HashSet::new();
     nodes.insert((start.0 as isize, start.1 as isize));
+    let mut new_nodes = nodes.clone();
     let mut prev_core = 0;
     let mut prev_adj = 0;
     let mut diff = 0;
     let mut spent_rep = 0;
     for _ in 0..rem {
-        nodes = nodes
+        (prev_nodes, nodes) = (nodes, prev_nodes);
+        new_nodes = new_nodes
             .iter()
             .flat_map(|&p| neighbours(&map, p))
+            .filter(|&p| nodes.insert(p))
             .collect::<HashSet<_>>();
     }
     for i in 1..=rep {
         for _ in 0..map.rows {
-            nodes = nodes
+            (prev_nodes, nodes) = (nodes, prev_nodes);
+            new_nodes = new_nodes
                 .iter()
                 .flat_map(|&p| neighbours(&map, p))
+                .filter(|&p| nodes.insert(p))
                 .collect::<HashSet<_>>();
         }
         let total = nodes.len();
