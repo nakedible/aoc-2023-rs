@@ -28,6 +28,7 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
     let mut input = parse_input(filename)?;
     // let dot = petgraph::dot::Dot::with_config(&input, &[petgraph::dot::Config::EdgeNoLabel]);
     // std::fs::write("day25.dot", format!("{:?}", dot))?;
+    fastrand::seed(7);
     for _ in 0..3 {
         let mut counts = HashMap::new();
         for i in fastrand::choose_multiple(input.node_indices(), 12) {
