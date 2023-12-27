@@ -23,7 +23,12 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
                 c @ ('0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9') => {
                     num = num * 10 + (c as i64 - '0' as i64);
                     adj = adj
-                        || input.neighbours((row, col), true).any(|p| !matches!(input[p], '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '.'));
+                        || input.neighbours((row, col), true).any(|p| {
+                            !matches!(
+                                input[p],
+                                '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '.'
+                            )
+                        });
                 }
                 _ => {
                     if adj {
