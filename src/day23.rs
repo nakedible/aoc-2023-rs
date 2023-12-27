@@ -17,11 +17,11 @@ fn neighbours(
     pos: (usize, usize),
 ) -> impl IntoIterator<Item = ((usize, usize), i64)> + '_ {
     let dirs = match map[pos] {
-        '>' => &[directions::E][..],
-        '^' => &[directions::N][..],
-        '<' => &[directions::W][..],
-        'v' => &[directions::S][..],
-        '.' => &directions::DIRECTIONS_4[..],
+        '>' => [directions::E].as_slice(),
+        '^' => [directions::N].as_slice(),
+        '<' => [directions::W].as_slice(),
+        'v' => [directions::S].as_slice(),
+        '.' => directions::DIRECTIONS_4.as_slice(),
         _ => unreachable!(),
     };
     dirs.iter()
