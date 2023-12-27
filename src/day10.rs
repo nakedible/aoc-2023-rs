@@ -105,6 +105,7 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
     Ok(ret)
 }
 
+#[allow(clippy::identity_op)]
 fn expand_pipes(input: &Matrix<Pipe>) -> Matrix<Pipe> {
     let mut ret = Matrix::new(input.rows * 3, input.columns * 3, Pipe::O);
     for row in 0..input.rows {
