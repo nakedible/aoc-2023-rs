@@ -18,10 +18,10 @@ fn parse_input(filename: &str) -> Result<Vec<(Module, Set64)>> {
             let (src, dst) = l.split_once(" -> ").unwrap();
             let (src, module) = if src == "broadcaster" {
                 ("".to_owned(), Module::Broadcast)
-            } else if src.starts_with('%') {
-                (src[1..].to_owned(), Module::FlipFlop)
-            } else if src.starts_with('&') {
-                (src[1..].to_owned(), Module::Conjunction)
+            } else if let Some(src) = src.strip_prefix('%') {
+                (src.to_owned(), Module::FlipFlop)
+            } else if let Some(src) = src.strip_prefix('&') {
+                (src.to_owned(), Module::Conjunction)
             } else {
                 unreachable!()
             };

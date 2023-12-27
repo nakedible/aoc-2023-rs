@@ -58,7 +58,7 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
     Ok(ret)
 }
 
-fn fix_input(input: &Vec<Instr>) -> Vec<Instr> {
+fn fix_input(input: &[Instr]) -> Vec<Instr> {
     input
         .iter()
         .map(|(_, _, color)| {

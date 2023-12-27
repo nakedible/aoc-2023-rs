@@ -61,7 +61,7 @@ fn fall_blocks(input: &mut Vec<(Point, Point)>) {
     }
 }
 
-fn would_fall(input: &Vec<(Point, Point)>, skip: usize) -> bool {
+fn would_fall(input: &[(Point, Point)], skip: usize) -> bool {
     for i in 0..input.len() {
         let cur = input[i];
         if let Some(fall_block) = one_down(cur) {
@@ -87,7 +87,7 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
     Ok(ret)
 }
 
-fn map_supports(input: &Vec<(Point, Point)>) -> Vec<Vec<usize>> {
+fn map_supports(input: &[(Point, Point)]) -> Vec<Vec<usize>> {
     input
         .iter()
         .enumerate()
@@ -104,7 +104,7 @@ fn map_supports(input: &Vec<(Point, Point)>) -> Vec<Vec<usize>> {
         .collect()
 }
 
-fn count_fall(supports: &Vec<Vec<usize>>, skip: usize) -> usize {
+fn count_fall(supports: &[Vec<usize>], skip: usize) -> usize {
     let mut dis = HashSet::new();
     dis.insert(skip);
     supports.iter().enumerate().for_each(|(i, s)| {

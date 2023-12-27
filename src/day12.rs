@@ -70,7 +70,7 @@ fn count_springs<'a>(
     ret
 }
 
-fn unfold(springs: &Vec<Spring>, groups: &Vec<i64>) -> (Vec<Spring>, Vec<i64>) {
+fn unfold(springs: &[Spring], groups: &[i64]) -> (Vec<Spring>, Vec<i64>) {
     let springs = springs
         .iter()
         .chain(Some(&Spring::Unk))

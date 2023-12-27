@@ -14,7 +14,7 @@ fn parse_input(filename: &str) -> Result<Vec<(i64, i64)>> {
     Ok(ret)
 }
 
-fn expand(input: &mut Vec<(i64, i64)>, count: i64) {
+fn expand(input: &mut [(i64, i64)], count: i64) {
     let mut prevx = 0;
     let mut xinc = 0;
     input.sort_by_key(|(x, _)| *x);

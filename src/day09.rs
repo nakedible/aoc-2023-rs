@@ -10,11 +10,11 @@ fn parse_input(filename: &str) -> Result<Vec<Vec<i64>>> {
     Ok(ret)
 }
 
-fn derive(row: &Vec<i64>) -> Vec<i64> {
+fn derive(row: &[i64]) -> Vec<i64> {
     row.windows(2).map(|w| w[1] - w[0]).collect()
 }
 
-fn predict_next(row: &Vec<i64>) -> i64 {
+fn predict_next(row: &[i64]) -> i64 {
     if row.iter().all(|&v| v == 0) {
         0
     } else {
@@ -33,7 +33,7 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
     Ok(total)
 }
 
-fn predict_prev(row: &Vec<i64>) -> i64 {
+fn predict_prev(row: &[i64]) -> i64 {
     if row.iter().all(|&v| v == 0) {
         0
     } else {

@@ -26,11 +26,7 @@ fn neighbours(
     };
     dirs.iter()
         .flat_map(move |dir| map.move_in_direction(pos, *dir))
-        .filter(|&p| match map[p] {
-            '.' => true,
-            '^' | '>' | 'v' | '<' => true,
-            _ => false,
-        })
+        .filter(|&p| matches!(map[p], '.' | '^' | '>' | 'v' | '<'))
         .map(move |p| (p, -1))
 }
 
@@ -64,11 +60,7 @@ fn neighbours2(
     let dirs = &directions::DIRECTIONS_4[..];
     dirs.iter()
         .flat_map(move |dir| map.move_in_direction(pos, *dir))
-        .filter(|&p| match map[p] {
-            '.' => true,
-            '^' | '>' | 'v' | '<' => true,
-            _ => false,
-        })
+        .filter(|&p| matches!(map[p], '.' | '^' | '>' | 'v' | '<'))
         .map(move |p| (p, -1))
 }
 
