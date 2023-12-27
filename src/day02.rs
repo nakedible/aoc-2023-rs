@@ -1,7 +1,7 @@
 use anyhow::Result;
 use test_case::test_case;
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 struct Game {
     red: i64,
     blue: i64,
@@ -16,14 +16,10 @@ fn parse_input(filename: &str) -> Result<Vec<(i64, Vec<Game>)>> {
             continue;
         }
         let (gamenum, gamesstr) = line.split_once(": ").unwrap();
-        let (_, gameid) = gamenum.split_once("Game ").unwrap();
+        let gameid = gamenum.strip_prefix("Game ").unwrap().parse().unwrap();
         let mut games = Vec::new();
         for gamestr in gamesstr.split("; ") {
-            let mut game = Game {
-                red: 0,
-                blue: 0,
-                green: 0,
-            };
+            let mut game = Game::default();
             for colorcount in gamestr.split(", ") {
                 let (count, color) = colorcount.split_once(' ').unwrap();
                 match color {
@@ -35,7 +31,7 @@ fn parse_input(filename: &str) -> Result<Vec<(i64, Vec<Game>)>> {
             }
             games.push(game);
         }
-        ret.push((gameid.parse().unwrap(), games));
+        ret.push((gameid, games));
     }
     Ok(ret)
 }

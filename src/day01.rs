@@ -40,8 +40,9 @@ fn parse_row<const TEXT: bool>(input: &[u8]) -> (i64, i64) {
 fn parse_input<const TEXT: bool>(filename: &str) -> Result<Vec<(i64, i64)>> {
     let input = std::fs::read(filename)?;
     let rows = input
+        .strip_suffix(b"\n")
+        .unwrap()
         .split(|b| *b == b'\n')
-        .filter(|v| !v.is_empty())
         .map(parse_row::<TEXT>)
         .collect();
     Ok(rows)
