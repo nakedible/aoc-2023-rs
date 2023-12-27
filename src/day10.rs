@@ -33,7 +33,7 @@ fn char_to_pipe(c: char) -> Pipe {
 fn parse_input(filename: &str) -> Result<Matrix<Pipe>> {
     let input = std::fs::read_to_string(filename)?;
     let ret = Matrix::from_rows(input.lines().map(|l| l.chars().map(char_to_pipe))).unwrap();
-    return Ok(ret);
+    Ok(ret)
 }
 
 #[allow(dead_code)]
