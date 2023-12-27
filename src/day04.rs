@@ -15,9 +15,6 @@ fn parse_input(filename: &str) -> Result<Vec<Card>> {
     let input = std::fs::read_to_string(filename)?;
     let mut ret = Vec::new();
     for line in input.lines() {
-        if line.is_empty() {
-            continue;
-        }
         let (cardnum, cardstr) = line.split_once(':').unwrap();
         let (_, cardid) = cardnum.split_once("Card ").unwrap();
         let cardid = cardid.trim().parse().unwrap();

@@ -6,7 +6,7 @@ use test_case::test_case;
 
 fn parse_input(filename: &str) -> Result<Matrix<char>> {
     let input = std::fs::read_to_string(filename)?;
-    let ret = Matrix::from_rows(input.lines().filter(|l| !l.is_empty()).map(|l| l.chars()))?;
+    let ret = Matrix::from_rows(input.lines().map(|l| l.chars()))?;
     Ok(ret)
 }
 

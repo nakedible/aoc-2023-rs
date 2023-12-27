@@ -3,14 +3,16 @@ use test_case::test_case;
 
 fn parse_input(filename: &str) -> Result<Vec<(i64, i64)>> {
     let input = std::fs::read_to_string(filename)?;
-    let mut ret = Vec::new();
-    for (y, line) in input.lines().enumerate() {
-        for (x, c) in line.chars().enumerate() {
-            if c == '#' {
-                ret.push((x as i64, y as i64));
-            }
-        }
-    }
+    let ret = input
+        .lines()
+        .enumerate()
+        .flat_map(|(y, line)| {
+            line.chars()
+                .enumerate()
+                .filter(|&(_, c)| c == '#')
+                .map(move |(x, _)| (x as i64, y as i64))
+        })
+        .collect();
     Ok(ret)
 }
 
@@ -44,11 +46,14 @@ fn expand(input: &mut [(i64, i64)], count: i64) {
 pub fn puzzle1and2(filename: &str, count: i64) -> Result<i64> {
     let mut input = parse_input(filename)?;
     expand(&mut input, count);
-    let mut tot = 0;
-    for (i, (g1x, g1y)) in input.iter().enumerate() {
-        for (g2x, g2y) in input[i + 1..].iter() {
-            tot += (g1x - g2x).abs() + (g1y - g2y).abs();
-        }
-    }
+    let tot = input
+        .iter()
+        .enumerate()
+        .flat_map(|(i, &(g1x, g1y))| {
+            input[i + 1..]
+                .iter()
+                .map(move |&(g2x, g2y)| (g1x - g2x).abs() + (g1y - g2y).abs())
+        })
+        .sum();
     Ok(tot)
 }

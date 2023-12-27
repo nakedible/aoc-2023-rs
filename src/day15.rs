@@ -9,9 +9,8 @@ fn calc_hash(s: &[u8]) -> u8 {
 #[test_case("inputs/input-15.txt" => matches Ok(513158))]
 pub fn puzzle1(filename: &str) -> Result<i64> {
     let input = std::fs::read(filename)?;
-    let (_, input) = input.split_last().unwrap();
-    let parts = input.split(|b| *b == b',').collect::<Vec<_>>();
-    let ret = parts.iter().map(|v| calc_hash(v) as i64).sum::<i64>();
+    let parts = input.strip_suffix(b"\n").unwrap().split(|b| *b == b',');
+    let ret = parts.map(|v| calc_hash(v) as i64).sum::<i64>();
     Ok(ret)
 }
 
