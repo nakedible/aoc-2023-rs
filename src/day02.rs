@@ -12,9 +12,6 @@ fn parse_input(filename: &str) -> Result<Vec<(i64, Vec<Game>)>> {
     let input = std::fs::read_to_string(filename)?;
     let mut ret = Vec::new();
     for line in input.lines() {
-        if line.is_empty() {
-            continue;
-        }
         let (gamenum, gamesstr) = line.split_once(": ").unwrap();
         let gameid = gamenum.strip_prefix("Game ").unwrap().parse().unwrap();
         let mut games = Vec::new();
@@ -57,7 +54,7 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
     Ok(ret)
 }
 
-#[test_case("inputs/example-02-2.txt" => matches Ok(2286))]
+#[test_case("inputs/example-02-1.txt" => matches Ok(2286))]
 #[test_case("inputs/input-02.txt" => matches Ok(71585))]
 pub fn puzzle2(filename: &str) -> Result<i64> {
     let input = parse_input(filename)?;
