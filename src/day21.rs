@@ -21,7 +21,7 @@ fn parse_input(filename: &str) -> Result<((usize, usize), Matrix<bool>)> {
         },
     ))?;
     let start = start.take().expect("start should always be there");
-    return Ok((start, ret));
+    Ok((start, ret))
 }
 
 fn clamp_pos(map: &Matrix<bool>, pos: (isize, isize)) -> (usize, usize) {

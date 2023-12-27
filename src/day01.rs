@@ -42,9 +42,9 @@ fn parse_input<const TEXT: bool>(filename: &str) -> Result<Vec<(i64, i64)>> {
     let rows = input
         .split(|b| *b == b'\n')
         .filter(|v| !v.is_empty())
-        .map(|v| parse_row::<TEXT>(v))
+        .map(parse_row::<TEXT>)
         .collect();
-    return Ok(rows);
+    Ok(rows)
 }
 
 #[test_case("inputs/example-01-1.txt" => matches Ok(142))]

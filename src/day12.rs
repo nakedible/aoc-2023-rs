@@ -14,7 +14,7 @@ fn parse_input(filename: &str) -> Result<Vec<(Vec<Spring>, Vec<i64>)>> {
     let ret = input
         .lines()
         .map(|line| {
-            let (springs, groups) = line.split_once(" ").unwrap();
+            let (springs, groups) = line.split_once(' ').unwrap();
             let springs = springs
                 .chars()
                 .map(|c| match c {
@@ -25,13 +25,13 @@ fn parse_input(filename: &str) -> Result<Vec<(Vec<Spring>, Vec<i64>)>> {
                 })
                 .collect::<Vec<_>>();
             let groups = groups
-                .split(",")
+                .split(',')
                 .map(str::parse::<i64>)
                 .collect::<Result<Vec<_>, _>>()?;
             Ok((springs, groups))
         })
         .collect();
-    return ret;
+    ret
 }
 
 fn count_springs<'a>(
@@ -103,7 +103,7 @@ pub fn puzzle1and2(filename: &str, unfolded: bool) -> Result<i64> {
     if unfolded {
         input = input
             .iter()
-            .map(|(springs, groups)| unfold(&springs, &groups))
+            .map(|(springs, groups)| unfold(springs, groups))
             .collect();
     }
     let mut ret = 0;

@@ -23,7 +23,7 @@ fn parse_input(filename: &str) -> Result<Vec<Instr>> {
             (dir, count, color)
         })
         .collect();
-    return Ok(ret);
+    Ok(ret)
 }
 
 #[test_case("inputs/example-18-1.txt" => matches Ok(62))]
@@ -50,8 +50,8 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
     let mut border = 0;
     for (dir, count, _) in &input {
         border += *count as i64;
-        pos.0 = pos.0 + dir.0 * *count as isize;
-        pos.1 = pos.1 + dir.1 * *count as isize;
+        pos.0 += dir.0 * *count as isize;
+        pos.1 += dir.1 * *count as isize;
         lines.push((pos.0 as i64, pos.1 as i64));
     }
     let ret = calc_area(lines) + border / 2 + 1;
@@ -93,10 +93,10 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
     let mut border = 0;
     for (dir, count, _) in &input {
         border += *count as i64;
-        pos.0 = pos.0 + dir.0 * *count as isize;
-        pos.1 = pos.1 + dir.1 * *count as isize;
+        pos.0 += dir.0 * *count as isize;
+        pos.1 += dir.1 * *count as isize;
         lines.push((pos.0 as i64, pos.1 as i64));
     }
     let ret = calc_area(lines) + border / 2 + 1;
-    Ok(ret as i64)
+    Ok(ret)
 }

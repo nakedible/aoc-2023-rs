@@ -18,7 +18,7 @@ fn parse_input(filename: &str) -> Result<Vec<Card>> {
         if line.is_empty() {
             continue;
         }
-        let (cardnum, cardstr) = line.split_once(":").unwrap();
+        let (cardnum, cardstr) = line.split_once(':').unwrap();
         let (_, cardid) = cardnum.split_once("Card ").unwrap();
         let cardid = cardid.trim().parse().unwrap();
         let (winningstr, numbersstr) = cardstr.split_once(" |").unwrap();
@@ -51,7 +51,7 @@ fn parse_input(filename: &str) -> Result<Vec<Card>> {
             numbers,
         });
     }
-    return Ok(ret);
+    Ok(ret)
 }
 
 #[test_case("inputs/example-04-1.txt" => matches Ok(13))]

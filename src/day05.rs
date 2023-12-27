@@ -32,7 +32,7 @@ fn build_ranges(data: &str) -> Vec<(i64, i64, i64)> {
     data.lines()
         .skip(1)
         .map(|line| {
-            let mut parts = line.split(" ").map(|v| v.parse::<i64>().unwrap());
+            let mut parts = line.split(' ').map(|v| v.parse::<i64>().unwrap());
             (
                 parts.next().unwrap(),
                 parts.next().unwrap(),
@@ -50,7 +50,7 @@ fn parse_input(filename: &str) -> Result<Almanac> {
         return Err(anyhow::anyhow!("Invalid input"));
     };
     let seeds = seeds
-        .split(" ")
+        .split(' ')
         .skip(1)
         .map(|v| v.parse::<i64>().unwrap())
         .collect::<Vec<i64>>();
@@ -61,7 +61,7 @@ fn parse_input(filename: &str) -> Result<Almanac> {
     let light_to_temperature = build_ranges(light_to_temperature);
     let temperature_to_humidity = build_ranges(temperature_to_humidity);
     let humidity_to_location = build_ranges(humidity_to_location);
-    return Ok(Almanac {
+    Ok(Almanac {
         seeds,
         seed_to_soil,
         soil_to_fertilizer,
@@ -70,7 +70,7 @@ fn parse_input(filename: &str) -> Result<Almanac> {
         light_to_temperature,
         temperature_to_humidity,
         humidity_to_location,
-    });
+    })
 }
 
 // fn map_naive(base: &[u8; 100], ranges: &Vec<(i64, i64, i64)>) -> [u8; 100] {
@@ -93,9 +93,9 @@ fn parse_input(filename: &str) -> Result<Almanac> {
 
 fn map_ranges(base: &RangeMap<i64, i64>, ranges: &Vec<(i64, i64, i64)>) -> RangeMap<i64, i64> {
     let mut ret = base.clone();
-    for (dst, src, len) in ranges {
+    for &(dst, src, len) in ranges {
         let offset = dst - src;
-        let srcrange = src + 0..src + len;
+        let srcrange = src..src + len;
         for (srcchunk, _) in clamped_overlapping(base, &srcrange) {
             let dstrange = srcchunk.start + offset..srcchunk.end + offset;
             for (dstchunk, dstv) in clamped_overlapping(base, &dstrange) {
@@ -113,8 +113,8 @@ fn map_ranges(base: &RangeMap<i64, i64>, ranges: &Vec<(i64, i64, i64)>) -> Range
 
 fn min_ranges(base: &RangeMap<i64, i64>, ranges: &Vec<(i64, i64)>) -> i64 {
     let mut ret = i64::MAX;
-    for (src, len) in ranges {
-        let srcrange = src + 0..src + len;
+    for &(src, len) in ranges {
+        let srcrange = src..src + len;
         for (srcchunk, _) in clamped_overlapping(base, &srcrange) {
             ret = std::cmp::min(ret, srcchunk.start + base.get(&srcchunk.start).unwrap());
         }

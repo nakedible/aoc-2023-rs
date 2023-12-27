@@ -26,7 +26,7 @@ fn parse_input(filename: &str) -> Result<(Vec<bool>, HashMap<Node, (Node, Node)>
             (node, (left, right))
         })
         .collect();
-    return Ok((dirs, nodes));
+    Ok((dirs, nodes))
 }
 
 #[test_case("inputs/example-08-1.txt" => matches Ok(2))]

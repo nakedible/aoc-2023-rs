@@ -12,14 +12,14 @@ fn parse_input(filename: &str) -> Result<UnGraph<String, ()>> {
         let src = *nodemap
             .entry(src.to_string())
             .or_insert_with(|| ret.add_node(src.to_string()));
-        for dst in dst.split(" ") {
+        for dst in dst.split(' ') {
             let dst = *nodemap
                 .entry(dst.to_string())
                 .or_insert_with(|| ret.add_node(dst.to_string()));
             ret.add_edge(src, dst, ());
         }
     }
-    return Ok(ret);
+    Ok(ret)
 }
 
 #[test_case("inputs/example-25-1.txt" => matches Ok(54))]

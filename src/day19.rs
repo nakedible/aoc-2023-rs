@@ -91,7 +91,7 @@ fn parse_input(filename: &str) -> Result<(HashMap<Id, Vec<Rule>>, Vec<Part>)> {
             ret
         })
         .collect();
-    return Ok((workflows, parts));
+    Ok((workflows, parts))
 }
 
 #[test_case("inputs/example-19-1.txt" => matches Ok(19114))]
@@ -146,7 +146,7 @@ fn traverse_rules(workflows: &HashMap<Id, Vec<Rule>>, id: Id, mut inputs: [(i64,
     for rule in rules {
         match rule {
             Rule::Lt(cat, val, dst) => {
-                let mut new_inputs = inputs.clone();
+                let mut new_inputs = inputs;
                 new_inputs[*cat as usize].0 = std::cmp::min(new_inputs[*cat as usize].0, val - 1);
                 new_inputs[*cat as usize].1 = std::cmp::min(new_inputs[*cat as usize].1, val - 1);
                 inputs[*cat as usize].0 = std::cmp::max(inputs[*cat as usize].0, *val);
@@ -154,7 +154,7 @@ fn traverse_rules(workflows: &HashMap<Id, Vec<Rule>>, id: Id, mut inputs: [(i64,
                 ret += traverse_rules(workflows, *dst, new_inputs);
             }
             Rule::Gt(cat, val, dst) => {
-                let mut new_inputs = inputs.clone();
+                let mut new_inputs = inputs;
                 new_inputs[*cat as usize].0 = std::cmp::max(new_inputs[*cat as usize].0, val + 1);
                 new_inputs[*cat as usize].1 = std::cmp::max(new_inputs[*cat as usize].1, val + 1);
                 inputs[*cat as usize].0 = std::cmp::min(inputs[*cat as usize].0, *val);

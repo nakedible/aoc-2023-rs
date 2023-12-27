@@ -18,9 +18,9 @@ fn parse_input(filename: &str) -> Result<Vec<(Module, Set64)>> {
             let (src, dst) = l.split_once(" -> ").unwrap();
             let (src, module) = if src == "broadcaster" {
                 ("".to_owned(), Module::Broadcast)
-            } else if src.starts_with("%") {
+            } else if src.starts_with('%') {
                 (src[1..].to_owned(), Module::FlipFlop)
-            } else if src.starts_with("&") {
+            } else if src.starts_with('&') {
                 (src[1..].to_owned(), Module::Conjunction)
             } else {
                 unreachable!()
@@ -32,8 +32,7 @@ fn parse_input(filename: &str) -> Result<Vec<(Module, Set64)>> {
     input.sort();
     let mut extra = input
         .iter()
-        .map(|(_, _, dst)| dst)
-        .flatten()
+        .flat_map(|(_, _, dst)| dst)
         .filter(|&s| !input.iter().any(|(src, _, _)| src == s))
         .cloned()
         .collect::<Vec<_>>();
@@ -52,7 +51,7 @@ fn parse_input(filename: &str) -> Result<Vec<(Module, Set64)>> {
             (*module, set)
         })
         .collect();
-    return Ok(ret);
+    Ok(ret)
 }
 
 fn build_refs(input: &[(Module, Set64)]) -> [Set64; 64] {
@@ -152,6 +151,6 @@ pub fn puzzle2(filename: &str) -> Result<i64> {
     let ret = last_refs
         .iter()
         .map(|i| last_high[*i].unwrap())
-        .fold(1, |acc, i| acc * i);
+        .product::<i64>();
     Ok(ret)
 }

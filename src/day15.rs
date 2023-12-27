@@ -11,7 +11,7 @@ pub fn puzzle1(filename: &str) -> Result<i64> {
     let input = std::fs::read(filename)?;
     let (_, input) = input.split_last().unwrap();
     let parts = input.split(|b| *b == b',').collect::<Vec<_>>();
-    let ret = parts.iter().map(|v| calc_hash(*v) as i64).sum::<i64>();
+    let ret = parts.iter().map(|v| calc_hash(v) as i64).sum::<i64>();
     Ok(ret)
 }
 
@@ -22,7 +22,7 @@ enum Instr<'a> {
 }
 
 fn parse_instr(part: &str) -> Instr {
-    if part.chars().last().unwrap() == '-' {
+    if part.ends_with('-') {
         let part = &part.as_bytes()[..part.len() - 1];
         Instr::Rem(calc_hash(part), part)
     } else {

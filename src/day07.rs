@@ -40,10 +40,10 @@ fn parse_input(filename: &str) -> Result<Vec<(Hand, i64)>> {
     let ret = input
         .lines()
         .map(|line| {
-            let (handstr, betstr) = line.split_once(" ").unwrap();
+            let (handstr, betstr) = line.split_once(' ').unwrap();
             let cards: [Card; 5] = handstr
                 .chars()
-                .filter_map(|c| parse_card(c))
+                .filter_map(parse_card)
                 .collect::<Vec<Card>>()
                 .try_into()
                 .unwrap();
@@ -51,7 +51,7 @@ fn parse_input(filename: &str) -> Result<Vec<(Hand, i64)>> {
             (cards, bet)
         })
         .collect();
-    return Ok(ret);
+    Ok(ret)
 }
 
 fn rank_hand(hand: &Hand, j: bool) -> Rank {

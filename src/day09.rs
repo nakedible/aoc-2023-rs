@@ -5,9 +5,9 @@ fn parse_input(filename: &str) -> Result<Vec<Vec<i64>>> {
     let input = std::fs::read_to_string(filename)?;
     let ret = input
         .lines()
-        .map(|l| l.split(" ").map(|v| v.parse::<i64>().unwrap()).collect())
+        .map(|l| l.split(' ').map(|v| v.parse::<i64>().unwrap()).collect())
         .collect();
-    return Ok(ret);
+    Ok(ret)
 }
 
 fn derive(row: &Vec<i64>) -> Vec<i64> {

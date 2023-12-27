@@ -25,7 +25,7 @@ fn parse_input(filename: &str) -> Result<Vec<(i64, Vec<Game>)>> {
                 green: 0,
             };
             for colorcount in gamestr.split(", ") {
-                let (count, color) = colorcount.split_once(" ").unwrap();
+                let (count, color) = colorcount.split_once(' ').unwrap();
                 match color {
                     "red" => game.red = count.parse().unwrap(),
                     "blue" => game.blue = count.parse().unwrap(),
@@ -37,7 +37,7 @@ fn parse_input(filename: &str) -> Result<Vec<(i64, Vec<Game>)>> {
         }
         ret.push((gameid.parse().unwrap(), games));
     }
-    return Ok(ret);
+    Ok(ret)
 }
 
 #[test_case("inputs/example-02-1.txt" => matches Ok(8))]

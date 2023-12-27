@@ -17,7 +17,7 @@ fn parse_input(filename: &str) -> Result<Vec<(i64, i64)>> {
         .skip(1)
         .map(|s| s.parse::<i64>().unwrap());
     let ret = times.zip(distances).collect::<Vec<_>>();
-    return Ok(ret);
+    Ok(ret)
 }
 
 fn find_roots(a: f64, b: f64, c: f64) -> (f64, f64) {
@@ -25,22 +25,22 @@ fn find_roots(a: f64, b: f64, c: f64) -> (f64, f64) {
     assert!(d > 0.0);
     let x1 = (-b + d.sqrt()) / (2.0 * a);
     let x2 = (-b - d.sqrt()) / (2.0 * a);
-    return (x1, x2);
+    (x1, x2)
 }
 
 fn next_int(a: f64) -> i64 {
     if a.fract() == 0.0 {
-        return a as i64 + 1;
+        a as i64 + 1
     } else {
-        return a.ceil() as i64;
+        a.ceil() as i64
     }
 }
 
 fn prev_int(a: f64) -> i64 {
     if a.fract() == 0.0 {
-        return a as i64 - 1;
+        a as i64 - 1
     } else {
-        return a.floor() as i64;
+        a.floor() as i64
     }
 }
 
@@ -84,7 +84,7 @@ fn parse_input2(filename: &str) -> Result<(i64, i64)> {
         .parse::<i64>()
         .unwrap();
     let ret = (time, distance);
-    return Ok(ret);
+    Ok(ret)
 }
 
 #[test_case("inputs/example-06-1.txt" => matches Ok(71503))]

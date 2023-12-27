@@ -9,7 +9,7 @@ use test_case::test_case;
 fn parse_input(filename: &str) -> Result<Matrix<char>> {
     let input = std::fs::read_to_string(filename)?;
     let ret = Matrix::from_rows(input.lines().filter(|l| !l.is_empty()).map(|l| l.chars()))?;
-    return Ok(ret);
+    Ok(ret)
 }
 
 fn neighbours(
@@ -88,28 +88,26 @@ fn simplify(input: &Matrix<char>) -> (NodeIndex, NodeIndex, DiGraph<(), i64>) {
             graph.add_edge(prev_branch, goalnode, cost);
             continue;
         }
-        let posses: Vec<(usize, usize)> = neighbours2(&input, next)
+        let posses: Vec<(usize, usize)> = neighbours2(input, next)
             .into_iter()
             .filter(|&(p, _)| p != prev)
             .map(|(p, _)| p)
             .collect();
         if posses.len() == 1 {
             branches.push_back((prev_branch, next, posses[0], cost + 1));
-        } else {
-            if let Some(node) = nodemap.get(&next) {
-                if !graph.contains_edge(prev_branch, *node) {
-                    graph.add_edge(prev_branch, *node, cost);
-                    for p in posses {
-                        branches.push_back((*node, next, p, 1));
-                    }
-                }
-            } else {
-                let node = graph.add_node(());
-                nodemap.insert(next, node);
-                graph.add_edge(prev_branch, node, cost);
+        } else if let Some(node) = nodemap.get(&next) {
+            if !graph.contains_edge(prev_branch, *node) {
+                graph.add_edge(prev_branch, *node, cost);
                 for p in posses {
-                    branches.push_back((node, next, p, 1));
+                    branches.push_back((*node, next, p, 1));
                 }
+            }
+        } else {
+            let node = graph.add_node(());
+            nodemap.insert(next, node);
+            graph.add_edge(prev_branch, node, cost);
+            for p in posses {
+                branches.push_back((node, next, p, 1));
             }
         }
     }

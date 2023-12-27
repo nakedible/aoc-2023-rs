@@ -22,7 +22,7 @@ fn parse_input(filename: &str) -> Result<Vec<(Vec3, Vec3)>> {
             ((x, y, z), (vx, vy, vz))
         })
         .collect();
-    return Ok(ret);
+    Ok(ret)
 }
 
 fn vec3_add(a: Vec3, b: Vec3) -> Vec3 {

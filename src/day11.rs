@@ -11,7 +11,7 @@ fn parse_input(filename: &str) -> Result<Vec<(i64, i64)>> {
             }
         }
     }
-    return Ok(ret);
+    Ok(ret)
 }
 
 fn expand(input: &mut Vec<(i64, i64)>, count: i64) {

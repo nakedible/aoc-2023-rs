@@ -19,7 +19,7 @@ fn parse_input(filename: &str) -> Result<Matrix<Rock>> {
             _ => unreachable!(),
         })
     }))?;
-    return Ok(ret);
+    Ok(ret)
 }
 
 #[allow(dead_code)]

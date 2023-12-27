@@ -17,7 +17,7 @@ fn parse_input(filename: &str) -> Result<Vec<Matrix<bool>>> {
             .unwrap()
         })
         .collect();
-    return Ok(ret);
+    Ok(ret)
 }
 
 fn find_mirror(input: &Matrix<bool>) -> Option<usize> {

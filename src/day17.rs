@@ -9,9 +9,9 @@ fn parse_input(filename: &str) -> Result<Matrix<u8>> {
         input
             .lines()
             .filter(|l| !l.is_empty())
-            .map(|l| l.chars().map(|c| c as u8 - '0' as u8)),
+            .map(|l| l.chars().map(|c| c as u8 - b'0')),
     )?;
-    return Ok(ret);
+    Ok(ret)
 }
 
 type State = ((usize, usize), (isize, isize), usize);
@@ -25,7 +25,7 @@ fn successors1(input: &Matrix<u8>, state: State) -> impl IntoIterator<Item = (St
         (directions::W, directions::E),
     ]
     .iter()
-    .map(move |&(d, o)| {
+    .filter_map(move |&(d, o)| {
         if o == dir {
             None
         } else if d == dir && count >= 3 {
@@ -37,7 +37,6 @@ fn successors1(input: &Matrix<u8>, state: State) -> impl IntoIterator<Item = (St
             None
         }
     })
-    .flatten()
 }
 
 fn heuristic(pos: (usize, usize), goal: (usize, usize)) -> usize {
@@ -72,7 +71,7 @@ fn successors2(input: &Matrix<u8>, state: State) -> impl IntoIterator<Item = (St
         (directions::W, directions::E),
     ]
     .iter()
-    .map(move |&(d, o)| {
+    .filter_map(move |&(d, o)| {
         if o == dir && count > 0 {
             None
         } else if d == dir && count >= 10 {
@@ -86,7 +85,6 @@ fn successors2(input: &Matrix<u8>, state: State) -> impl IntoIterator<Item = (St
             None
         }
     })
-    .flatten()
 }
 
 #[test_case("inputs/example-17-1.txt" => matches Ok(94))]

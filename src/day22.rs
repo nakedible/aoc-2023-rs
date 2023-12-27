@@ -30,7 +30,7 @@ fn parse_input(filename: &str) -> Result<Vec<Block>> {
             ((x1, y1, z1), (x2, y2, z2))
         })
         .collect();
-    return Ok(ret);
+    Ok(ret)
 }
 
 fn one_down(block: Block) -> Option<Block> {
@@ -108,7 +108,7 @@ fn count_fall(supports: &Vec<Vec<usize>>, skip: usize) -> usize {
     let mut dis = HashSet::new();
     dis.insert(skip);
     supports.iter().enumerate().for_each(|(i, s)| {
-        if !s.is_empty() && s.iter().all(|j| dis.contains(&j)) {
+        if !s.is_empty() && s.iter().all(|j| dis.contains(j)) {
             dis.insert(i);
         }
     });

@@ -24,7 +24,7 @@ fn parse_input(filename: &str) -> Result<Matrix<Tile>> {
             _ => unreachable!(),
         })
     }))?;
-    return Ok(ret);
+    Ok(ret)
 }
 
 fn shoot_ray(map: &Matrix<Tile>, pos: (usize, usize), dir: (isize, isize)) -> i64 {
