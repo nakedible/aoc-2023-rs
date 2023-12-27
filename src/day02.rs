@@ -9,26 +9,37 @@ struct Game {
 }
 
 fn parse_game(gamestr: &str) -> Game {
-    gamestr.split(", ").fold(Game::default(), |game, colorcount| {
-        let (count, color) = colorcount.split_once(' ').unwrap();
-        let count = count.parse().unwrap();
-        match color {
-            "red" => Game { red: count, ..game },
-            "blue" => Game { blue: count, ..game },
-            "green" => Game { green: count, ..game },
-            _ => panic!("Unknown color {}", color),
-        }
-    })
+    gamestr
+        .split(", ")
+        .fold(Game::default(), |game, colorcount| {
+            let (count, color) = colorcount.split_once(' ').unwrap();
+            let count = count.parse().unwrap();
+            match color {
+                "red" => Game { red: count, ..game },
+                "blue" => Game {
+                    blue: count,
+                    ..game
+                },
+                "green" => Game {
+                    green: count,
+                    ..game
+                },
+                _ => panic!("Unknown color {}", color),
+            }
+        })
 }
 
 fn parse_input(filename: &str) -> Result<Vec<(i64, Vec<Game>)>> {
     let input = std::fs::read_to_string(filename)?;
-    let ret = input.lines().map(|line| {
-        let (gamenum, gamesstr) = line.split_once(": ").unwrap();
-        let gameid = gamenum.strip_prefix("Game ").unwrap().parse().unwrap();
-        let games = gamesstr.split("; ").map(parse_game).collect();
-        (gameid, games)
-    }).collect();
+    let ret = input
+        .lines()
+        .map(|line| {
+            let (gamenum, gamesstr) = line.split_once(": ").unwrap();
+            let gameid = gamenum.strip_prefix("Game ").unwrap().parse().unwrap();
+            let games = gamesstr.split("; ").map(parse_game).collect();
+            (gameid, games)
+        })
+        .collect();
     Ok(ret)
 }
 
